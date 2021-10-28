@@ -1,17 +1,28 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Webshop</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Kristiania Questionnaire</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <h1>Welcome to the web shop</h1>
-    
-        <ul>
-            <li><a href="/listProducts.html">List existing products</a></li>
-            <li><a href="/newProduct.html">Add new product</a></li>
-        </ul>
-    </main>
+    <h1>Questionnaire</h1>
+
+    <div id="questions"></div>
+
+<div>
+    <a href="newQuestion.html">Add new questions</a>
+</div>
+
 </body>
+
+<script>
+        fetch("/api/questions")
+        .then(function(response) {
+        return response.text();
+    }).then(function(text) {
+        document.getElementById("questions").innerHTML = text;
+});
+</script>
+
 </html>
