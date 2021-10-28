@@ -49,6 +49,12 @@ public class HttpServer {
         if (fileTarget.equals("/api/questions")) {
             String responseText = "123";
             writeOkResponse(clientSocket, responseText, "text/html");
+        } else if (fileTarget.equals("/api/alternativeAnswers")) {
+            String responseText = "456";
+            writeOkResponse(clientSocket, responseText, "text/html");
+        } else if (fileTarget.equals("/api/questionOptions")) {
+            String responseText = "789";
+            writeOkResponse(clientSocket, responseText, "text/html");
         } else if (fileTarget.equals("/hello")) {
             String yourName = "world";
             if (query != null) {
