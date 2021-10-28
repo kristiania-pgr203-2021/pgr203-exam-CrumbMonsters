@@ -61,17 +61,6 @@ public class HttpServer {
                 writeOkResponse(clientSocket, responseText, "text/html");
                 break;
             }
-            case "/hello": {
-                String yourName = "world";
-                if (query != null) {
-                    Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
-                    yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
-                }
-                String responseText = "<p>Hello " + yourName + "</p>";
-
-                writeOkResponse(clientSocket, responseText, "text/html");
-                break;
-            }
             default: {
                 InputStream fileResource = getClass().getResourceAsStream(fileTarget);
                 if (fileResource != null) {
