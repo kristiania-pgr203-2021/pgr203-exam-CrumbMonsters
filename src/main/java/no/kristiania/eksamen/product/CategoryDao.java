@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao {
-    private final DataSource dataSource;
+    /*private final DataSource dataSource;
 
     public CategoryDao(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -35,5 +35,5 @@ public class CategoryDao {
                 }
             }
         }
-    }
+    }*/
 }

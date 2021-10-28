@@ -1,7 +1,7 @@
 package no.kristiania.eksamen.product;
 
 public class Product {
-    private long id;
+    /*private long id;
     private String name;
     private String price;
     private String description;
@@ -45,5 +45,5 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
+    }*/
 }

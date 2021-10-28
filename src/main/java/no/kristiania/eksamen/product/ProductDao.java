@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class ProductDao {
 
-    private static DataSource dataSource;
+    /*private static DataSource dataSource;
 
     public ProductDao(DataSource dataSource) {
         ProductDao.dataSource = dataSource;
@@ -59,7 +59,7 @@ public class ProductDao {
 
                 statement.executeUpdate();
 
-            }*/
+            }*
         }
     }
 
@@ -151,5 +151,5 @@ public class ProductDao {
         product.setCategory(rs.getString("product_category"));
 
         return product;
-    }
+    }*/
 }
