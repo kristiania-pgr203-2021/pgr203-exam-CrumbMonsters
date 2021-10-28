@@ -12,7 +12,6 @@ import java.util.Map;
 public class HttpServer {
 
     private final ServerSocket serverSocket;
-    private final HashMap<String, HttpController> controllers = new HashMap<>();
 
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -101,7 +100,4 @@ public class HttpServer {
         return serverSocket.getLocalPort();
     }
 
-    public void addController(String path, HttpController controller) {
-        controllers.put(path, controller);
-    }
 }

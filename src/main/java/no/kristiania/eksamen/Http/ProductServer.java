@@ -17,9 +17,6 @@ public class ProductServer {
         CategoryDao categoryDao = new CategoryDao (dataSource);
         ProductDao productDao = new ProductDao (dataSource);
         HttpServer httpServer = new HttpServer(1962);
-        httpServer.addController("/api/categoryOptions", new CategoriesController(categoryDao));
-        httpServer.addController("/api/newProduct", new AddProductController(productDao));
-        httpServer.addController("/api/products", new ListProductsController(productDao));
     }
 
     private static DataSource createDataSource() throws IOException {
