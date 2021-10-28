@@ -39,7 +39,6 @@ public class ProductServer {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setUrl(properties.getProperty("URL"));
         dataSource.setUser(properties.getProperty("username"));
-        dataSource.setPassword(properties.getProperty("password"));
 
         if (password == null) {
             throw new IllegalArgumentException("Run with -Dpassword=<password>");
@@ -48,11 +47,14 @@ public class ProductServer {
         SecretKeySpec key = createSecretKey(password.toCharArray(), salt, iterationCount, keyLength);
 
 
+        //Remember to remove
         System.out.println("Original password: " + password);
         String encryptedPassword = encrypt(password, key);
         System.out.println("Encrypted password: " + encryptedPassword);
         String decryptedPassword = decrypt(encryptedPassword, key);
         System.out.println("Decrypted password: " + decryptedPassword);
+
+        dataSource.setPassword(decryptedPassword);
 
 
         Flyway.configure().dataSource(dataSource).load();
