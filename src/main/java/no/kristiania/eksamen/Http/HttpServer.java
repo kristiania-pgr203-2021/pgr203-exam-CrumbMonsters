@@ -46,9 +46,9 @@ public class HttpServer {
             fileTarget = requestTarget;
         }
 
-        if (controllers.containsKey(fileTarget)) {
-            HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
-            response.write(clientSocket);
+        if (fileTarget.equals("/api/questions")) {
+            String responseText = "123";
+            writeOkResponse(clientSocket, responseText, "text/html");
         } else if (fileTarget.equals("/hello")) {
             String yourName = "world";
             if (query != null) {
