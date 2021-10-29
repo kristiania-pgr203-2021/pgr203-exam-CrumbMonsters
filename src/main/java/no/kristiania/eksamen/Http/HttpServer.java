@@ -1,5 +1,7 @@
 package no.kristiania.eksamen.Http;
 
+import no.kristiania.eksamen.question.Question;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +9,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.Map;
+
+import static no.kristiania.eksamen.Http.HttpMessage.parseRequestParameters;
 
 public class HttpServer {
 
@@ -47,9 +51,18 @@ public class HttpServer {
 
         switch (fileTarget) {
             case "/api/questions": {
-                String responseText = "123";
+                Map<String, String> queryMap = parseRequestParameters(httpMessage.messageBody);
+                Question question = new Question();
+
+                question.setTitle(queryMap.get("questionTitle"));
+                question.setName(queryMap.get("questionName"));
+                question.setAnswer(queryMap.get("questionAnswer"));
+
+                String responseText = "Done<br><br>" +
+                        "<a href=\"/newQuestion.html\">Click to add another question</a>" +
+                        "<br>";
+
                 writeOkResponse(clientSocket, responseText, "text/html");
-                break;
             }
             case "/api/alternativeAnswers": {
                 String responseText = "456";

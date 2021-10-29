@@ -1,7 +1,9 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.product.CategoryDao;
-import no.kristiania.eksamen.product.ProductDao;
+import no.kristiania.eksamen.question.AnswerDao;
+import no.kristiania.eksamen.question.CategoryDao;
+import no.kristiania.eksamen.question.ProductDao;
+import no.kristiania.eksamen.question.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -18,8 +20,8 @@ public class ProductServer {
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         DataSource dataSource = createDataSource();
-        CategoryDao categoryDao = new CategoryDao (dataSource);
-        ProductDao productDao = new ProductDao (dataSource);
+        QuestionDao questionDao = new QuestionDao (dataSource);
+        AnswerDao answerDao = new AnswerDao (dataSource);
         HttpServer httpServer = new HttpServer(1962);
     }
 

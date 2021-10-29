@@ -1,9 +1,4 @@
-package no.kristiania.eksamen.product;
-
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+package no.kristiania.eksamen.question;
 
 public class CategoryDao {
     /*private final DataSource dataSource;
