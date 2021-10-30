@@ -1,8 +1,6 @@
 package no.kristiania.eksamen.Http;
 
 import no.kristiania.eksamen.question.AnswerDao;
-import no.kristiania.eksamen.question.CategoryDao;
-import no.kristiania.eksamen.question.ProductDao;
 import no.kristiania.eksamen.question.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;

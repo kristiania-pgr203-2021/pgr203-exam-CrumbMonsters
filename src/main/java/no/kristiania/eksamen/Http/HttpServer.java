@@ -54,6 +54,7 @@ public class HttpServer {
                 Map<String, String> queryMap = parseRequestParameters(httpMessage.messageBody);
                 Question question = new Question();
 
+                /*
                 question.setTitle(queryMap.get("questionTitle"));
                 question.setName(queryMap.get("questionName"));
                 question.setAnswer(queryMap.get("questionAnswer"));
@@ -63,6 +64,7 @@ public class HttpServer {
                         "<br>";
 
                 writeOkResponse(clientSocket, responseText, "text/html");
+                */
             }
             case "/api/alternativeAnswers": {
                 String responseText = "456";
