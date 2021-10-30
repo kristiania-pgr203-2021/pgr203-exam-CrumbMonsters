@@ -1,6 +1,7 @@
 package no.kristiania.eksamen.Http;
 
 import no.kristiania.eksamen.question.Question;
+import no.kristiania.eksamen.question.QuestionDao;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import static no.kristiania.eksamen.Http.HttpMessage.parseRequestParameters;
@@ -15,6 +17,7 @@ import static no.kristiania.eksamen.Http.HttpMessage.parseRequestParameters;
 public class HttpServer {
 
     private final ServerSocket serverSocket;
+    private final HashMap<String, HttpController> controllers = new HashMap<>();
 
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -49,60 +52,43 @@ public class HttpServer {
             fileTarget = requestTarget;
         }
 
-        switch (fileTarget) {
-            case "/api/questions": {
-                Map<String, String> queryMap = parseRequestParameters(httpMessage.messageBody);
-                Question question = new Question();
+        if (controllers.containsKey(fileTarget)) {
+            HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
+            response.write(clientSocket);
 
-                /*
-                question.setTitle(queryMap.get("questionTitle"));
-                question.setName(queryMap.get("questionName"));
-                question.setAnswer(queryMap.get("questionAnswer"));
 
-                String responseText = "Done<br><br>" +
-                        "<a href=\"/newQuestion.html\">Click to add another question</a>" +
-                        "<br>";
 
-                writeOkResponse(clientSocket, responseText, "text/html");
-                */
-            }
-            case "/api/alternativeAnswers": {
-                String responseText = "456";
-                writeOkResponse(clientSocket, responseText, "text/html");
-                break;
-            }
-            case "/api/questionOptions": {
-                String responseText = "789";
-                writeOkResponse(clientSocket, responseText, "text/html");
-                break;
-            }
-            default: {
-                InputStream fileResource = getClass().getResourceAsStream(fileTarget);
-                if (fileResource != null) {
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    fileResource.transferTo(buffer);
-                    String responseText = buffer.toString();
+        } else if ("/api/alternativeAnswers".equals(fileTarget)) {
+            String responseText = "456";
+            writeOkResponse(clientSocket, responseText, "text/html");
+        } else if ("/api/questionOptions".equals(fileTarget)) {
+            String responseText = "789";
+            writeOkResponse(clientSocket, responseText, "text/html");
+        } else {
+            InputStream fileResource = getClass().getResourceAsStream(fileTarget);
+            if (fileResource != null) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                fileResource.transferTo(buffer);
+                String responseText = buffer.toString();
 
-                    String contentType = "text/plain";
-                    if (requestTarget.endsWith(".html")) {
-                        contentType = "text/html";
-                    } else if (requestTarget.endsWith(".css")) {
-                        contentType = "text/css";
-                    }
-                    writeOkResponse(clientSocket, responseText, contentType);
-                    return;
+                String contentType = "text/plain";
+                if (requestTarget.endsWith(".html")) {
+                    contentType = "text/html";
+                } else if (requestTarget.endsWith(".css")) {
+                    contentType = "text/css";
                 }
-
-                String responseText = "File not found: " + requestTarget;
-
-                String response = "HTTP/1.1 404 Not found\r\n" +
-                        "Content-Length: " + responseText.length() + "\r\n" +
-                        "Connection: close\r\n" +
-                        "\r\n" +
-                        responseText;
-                clientSocket.getOutputStream().write(response.getBytes());
-                break;
+                writeOkResponse(clientSocket, responseText, contentType);
+                return;
             }
+
+            String responseText = "File not found: " + requestTarget;
+
+            String response = "HTTP/1.1 404 Not found\r\n" +
+                    "Content-Length: " + responseText.length() + "\r\n" +
+                    "Connection: close\r\n" +
+                    "\r\n" +
+                    responseText;
+            clientSocket.getOutputStream().write(response.getBytes());
         }
     }
 
@@ -118,6 +104,10 @@ public class HttpServer {
 
     public int getPort() {
         return serverSocket.getLocalPort();
+    }
+
+    public void addController(String path, HttpController controller) {
+        controllers.put(path, controller);
     }
 
 }

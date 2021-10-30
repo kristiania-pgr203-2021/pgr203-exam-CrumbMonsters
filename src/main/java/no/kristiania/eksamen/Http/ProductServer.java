@@ -21,6 +21,7 @@ public class ProductServer {
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao (dataSource);
         HttpServer httpServer = new HttpServer(1962);
+        httpServer.addController("/api/questions", new ListQuestionsController(questionDao));
     }
 
     private static DataSource createDataSource() throws IOException, GeneralSecurityException {
