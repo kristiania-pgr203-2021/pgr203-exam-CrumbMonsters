@@ -45,23 +45,28 @@ public class QuestionDao {
 
                 statement.executeUpdate();
             }
-            /*try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into categories (category_name) values (?) "
-            )) {
-                statement.setString(1, product.getCategory());
-
-                statement.executeUpdate();
-
-            }*/
         }
     }
 
-    /*public List<Question> listByName(String questionName) throws SQLException {
+    public static void answer (Question question) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into answers (questionname, questionanswer) values (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            )) {
+                statement.setString(1, question.getName());
+                statement.setString(2, question.getAnswer());
+
+                statement.executeUpdate();
+            }
+        }
+    }
+
+    public List<Question> listByTitle(String questionTitle) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from questions where questions.questionname ilike ?"
+                    "select * from questions where questions.questionTitle ilike ?"
             )) {
-                statement.setString(1, questionName);
+                statement.setString(1, questionTitle);
                 try (ResultSet rs = statement.executeQuery()) {
                     ArrayList<Question> questions = new ArrayList<>();
 
@@ -72,7 +77,7 @@ public class QuestionDao {
                 }
             }
         }
-    }*/
+    }
 
     public List<Question> listAll() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {

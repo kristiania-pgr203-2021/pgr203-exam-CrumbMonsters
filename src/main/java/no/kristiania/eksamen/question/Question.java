@@ -3,7 +3,15 @@ package no.kristiania.eksamen.question;
 public class Question {
     private String title;
     private String name;
-    private String answerBox;
+    private String answer;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public String getTitle() {
         return title;
@@ -19,13 +27,5 @@ public class Question {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAnswerBox() {
-        return answerBox;
-    }
-
-    public void setAnswerBox (String answerBox) {
-        this.answerBox = answerBox;
     }
 }

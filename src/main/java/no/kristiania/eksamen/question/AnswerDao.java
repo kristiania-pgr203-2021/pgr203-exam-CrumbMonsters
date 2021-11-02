@@ -5,21 +5,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDao {
+public class AnswerDao {/*
     private final DataSource dataSource;
 
     public AnswerDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void save (String answer) throws SQLException {
+    public void save (Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "insert into answers (questionname, questionanswer) values (?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             )) {
-                statement.setString(1, Answer.getName());
-                statement.setString(2, Answer.getAnswer());
+                statement.setString(1, question.getName());
+                statement.setString(2, question.getAnswer());
                 statement.executeUpdate();
 
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -67,5 +67,5 @@ public class AnswerDao {
         answer.setName(rs.getString("questionName"));
         answer.setAnswer(rs.getString("questionAnswer"));
         return answer;
-    }
+    }*/
 }
