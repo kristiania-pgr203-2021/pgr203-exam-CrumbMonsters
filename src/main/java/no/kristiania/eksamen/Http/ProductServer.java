@@ -4,6 +4,8 @@ import no.kristiania.eksamen.question.AnswerDao;
 import no.kristiania.eksamen.question.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.sql.DataSource;
@@ -16,12 +18,15 @@ import static no.kristiania.eksamen.Http.Encryption.*;
 
 public class ProductServer {
 
+    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         DataSource dataSource = createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao (dataSource);
         HttpServer httpServer = new HttpServer(1962);
         httpServer.addController("/api/questions", new ListQuestionsController(questionDao));
+        logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 
     private static DataSource createDataSource() throws IOException, GeneralSecurityException {
