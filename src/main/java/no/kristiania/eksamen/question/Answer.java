@@ -1,31 +1,31 @@
 package no.kristiania.eksamen.question;
 
 public class Answer {
-    private long id;
-    private String name;
-    private String answer;
+    private static String name;
+    private static String answer;
+    private static long id;
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static void setId(long id) {
+        Answer.id = id;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Answer.name = name;
     }
 
-    public String getAnswer() {
+    public static String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
-        this.answer = answer;
+        Answer.answer = answer;
     }
 }

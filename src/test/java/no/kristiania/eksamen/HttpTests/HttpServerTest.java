@@ -34,11 +34,17 @@ public class HttpServerTest {
 
     @Test
     void shouldReturn200() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/index");
         assertAll(
                 () -> assertEquals(200, client.getStatusCode()),
                 () -> assertEquals("text/html", client.getHeader("Content-Type")),
                 () -> assertEquals("<p>Hello, world!</p>", client.getMessageBody()));
+    }
+
+    @Test
+    void shouldReturn500() throws  IOException{
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/not-found");
+        assertEquals(500, client.getStatusCode());
     }
 
     @Test

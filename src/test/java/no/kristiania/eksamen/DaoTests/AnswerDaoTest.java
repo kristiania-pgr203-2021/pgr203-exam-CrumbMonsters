@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AnswerDaoTest {
     private AnswerDao dao = new AnswerDao(TestData.testDataSource());
 
-    /*@Test
+    @Test
     void shouldListAllCategories() throws SQLException {
         String answer1 = "answer-" + UUID.randomUUID();
         String answer2 = "answer-" + UUID.randomUUID();
@@ -21,5 +21,5 @@ public class AnswerDaoTest {
 
         assertThat(dao.listAll())
                 .contains(answer1, answer2);
-    }*/
+    }
 }
