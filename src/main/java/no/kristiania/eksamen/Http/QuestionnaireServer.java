@@ -14,13 +14,9 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
-import static no.kristiania.eksamen.Http.Encryption.*;
+public class QuestionnaireServer {
 
-public class ProductServer {
-
-    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
-
-    public static void main(String[] args) throws IOException, GeneralSecurityException {
+    public static void main(String[] args) throws IOException {
         DataSource dataSource = createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao (dataSource);
