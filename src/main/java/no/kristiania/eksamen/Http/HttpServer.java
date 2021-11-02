@@ -55,14 +55,23 @@ public class HttpServer {
         if (controllers.containsKey(fileTarget)) {
             HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
-
-
-
         } else if ("/api/alternativeAnswers".equals(fileTarget)) {
-            String responseText = "456";
+            String yourName = "world";
+            if (query != null) {
+                Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
+                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
+            }
+            String responseText = "<p>Hello " + yourName + "</p>";
+
             writeOkResponse(clientSocket, responseText, "text/html");
         } else if ("/api/questionOptions".equals(fileTarget)) {
-            String responseText = "789";
+            String yourName = "world";
+            if (query != null) {
+                Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
+                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
+            }
+            String responseText = "<p>Hello " + yourName + "</p>";
+
             writeOkResponse(clientSocket, responseText, "text/html");
         } else {
             InputStream fileResource = getClass().getResourceAsStream(fileTarget);
@@ -109,5 +118,4 @@ public class HttpServer {
     public void addController(String path, HttpController controller) {
         controllers.put(path, controller);
     }
-
 }

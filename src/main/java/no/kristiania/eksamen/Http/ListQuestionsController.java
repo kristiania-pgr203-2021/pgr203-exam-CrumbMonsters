@@ -3,7 +3,6 @@ package no.kristiania.eksamen.Http;
 import no.kristiania.eksamen.question.Question;
 import no.kristiania.eksamen.question.QuestionDao;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class ListQuestionsController implements HttpController{
