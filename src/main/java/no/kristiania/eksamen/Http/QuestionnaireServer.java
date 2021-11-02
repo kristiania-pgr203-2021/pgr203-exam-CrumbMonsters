@@ -16,7 +16,9 @@ import java.util.Properties;
 
 public class QuestionnaireServer {
 
-    public static void main(String[] args) throws IOException {
+    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
         DataSource dataSource = createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao (dataSource);
@@ -30,31 +32,10 @@ public class QuestionnaireServer {
         Properties properties = new Properties();
         properties.load(fis);
 
-        byte[] salt = "12345678".getBytes();
-        int iterationCount = 40000;
-        int keyLength = 128;
-        String password = properties.getProperty("password");
-
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setUrl(properties.getProperty("URL"));
         dataSource.setUser(properties.getProperty("username"));
-
-        if (password == null) {
-            throw new IllegalArgumentException("Run with -Dpassword=<password>");
-        }
-
-        SecretKeySpec key = createSecretKey(password.toCharArray(), salt, iterationCount, keyLength);
-
-
-        //Remember to remove
-        System.out.println("Original password: " + password);
-        String encryptedPassword = encrypt(password, key);
-        System.out.println("Encrypted password: " + encryptedPassword);
-        String decryptedPassword = decrypt(encryptedPassword, key);
-        System.out.println("Decrypted password: " + decryptedPassword);
-
-        dataSource.setPassword(decryptedPassword);
-
+        dataSource.setPassword(properties.getProperty("password"));
 
         Flyway.configure().dataSource(dataSource).load();
 
