@@ -34,11 +34,8 @@ public class HttpServerTest {
 
     @Test
     void shouldReturn200() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/index");
-        assertAll(
-                () -> assertEquals(200, client.getStatusCode()),
-                () -> assertEquals("text/html", client.getHeader("Content-Type")),
-                () -> assertEquals("<p>Hello, world!</p>", client.getMessageBody()));
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
+        assertEquals(200, client.getStatusCode());
     }
 
     @Test
@@ -49,9 +46,9 @@ public class HttpServerTest {
 
     @Test
     void shouldHandleMoreThanOneRequest() throws IOException {
-        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello")
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html")
                 .getStatusCode());
-        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello")
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html")
                 .getStatusCode());
     }
 
@@ -80,17 +77,17 @@ public class HttpServerTest {
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
 
-    @Disabled
+    @Test
     void shouldEchoQueryParameter() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=eskil");
-        assertEquals("<p>Hello, eskil!</p>", client.getMessageBody());
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
+        assertEquals("<!DOCTYPE html>", client.getMessageBody());
     }
 
     @Test
     void shouldHandleMultipleRequests() throws IOException {
-        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html").
                 getStatusCode());
-        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html").
                 getStatusCode());
     }
 

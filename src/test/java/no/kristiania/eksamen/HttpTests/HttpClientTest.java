@@ -11,11 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HttpClientTest {
 
-    @Disabled
-    void shouldDoSomething() {
-        assertEquals(200, 200);
-    }
-
     @Test
     void shouldReturnStatusCode() throws IOException {
         HttpClient httpClient = new HttpClient("httpbin.org", 80, "/html");
