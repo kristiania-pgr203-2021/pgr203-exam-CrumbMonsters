@@ -23,6 +23,7 @@ public class QuestionnaireServer {
         httpServer.addController("/api/questions", new ListQuestionsController(questionDao));
         httpServer.addController("/api/answer", new AnswerQuestionController(questionDao));
         httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
+        httpServer.addController("/api/viewAnswers", new viewAnswersController(questionDao));
         logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 

@@ -22,7 +22,7 @@ public class NewQuestionController implements HttpController {
         question.setName(queryMap.get("questionName"));
         QuestionDao.save(question);
 
-        String response = "<a href='/index.html'>Click to go to index</a>";
+        String response = "<a href='/index.html'>Question added. Click to go to index</a>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }

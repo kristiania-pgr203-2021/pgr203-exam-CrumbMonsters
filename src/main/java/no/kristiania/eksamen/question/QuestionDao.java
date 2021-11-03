@@ -15,27 +15,26 @@ public class QuestionDao {
     private static DataSource dataSource;
 
     public QuestionDao (DataSource dataSource) {
-        this.dataSource = dataSource;
+        QuestionDao.dataSource = dataSource;
     }
 
-    public static void answer(Question question) throws SQLException, IOException {
+    public static void answer(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into answers (questionname, questionanswer) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
+                    "insert into answers (questionname, questionanswer) values (?, ?)"
+                    //Statement.RETURN_GENERATED_KEYS
             )) {
                 statement.setString(1, question.getName());
                 statement.setString(2, question.getAnswer());
                 statement.executeUpdate();
 
-                try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                /*try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     resultSet.next();
                     Answer.setId(resultSet.getLong("answerid"));
-                }
+                }*/
             }
         }
     }
-
 
     public Question retrieve (String questionName) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
@@ -65,19 +64,6 @@ public class QuestionDao {
             }
         }
     }
-
-    /*public static void answer (Question question) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into answers (questionname, questionanswer) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            )) {
-                statement.setString(1, question.getName());
-                statement.setString(2, question.getAnswer());
-
-                statement.executeUpdate();
-            }
-        }
-    }*/
 
     public List<Question> listByTitle(String questionTitle) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
@@ -112,12 +98,33 @@ public class QuestionDao {
         }
     }
 
-    private Question readFromResultSet(ResultSet rs) throws SQLException {
-        Question product = new Question();
-        product.setTitle(rs.getString("questionTitle"));
-        product.setName(rs.getString("questionName"));
+    public List<Question> listAllAnswers() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("select * from answers")) {
+                try (ResultSet rs = statement.executeQuery()) {
+                    ArrayList<Question> res = new ArrayList<>();
+                    while (rs.next()) {
+                        res.add(readFromResultSetTwo(rs));
+                    }
+                    return res;
+                }
+            }
+        }
+    }
 
-        return product;
+    private Question readFromResultSet(ResultSet rs) throws SQLException {
+        Question question = new Question();
+        question.setTitle(rs.getString("questionTitle"));
+        question.setName(rs.getString("questionName"));
+
+        return question;
+    }
+
+    private Question readFromResultSetTwo (ResultSet rs) throws SQLException {
+        Question question = new Question();
+        question.setName(rs.getString("questionName"));
+        question.setAnswer(rs.getString("questionAnswer"));
+        return question;
     }
 
     private Question mapFromResultSet(ResultSet rs) throws SQLException {

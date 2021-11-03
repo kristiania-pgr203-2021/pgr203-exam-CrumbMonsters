@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class AnswerDao {
 
-    private static DataSource dataSource;
+    /*private static DataSource dataSource;
 
     public AnswerDao (DataSource dataSource) {
         this.dataSource = dataSource;
@@ -71,5 +71,5 @@ public class AnswerDao {
         Flyway.configure().dataSource(dataSource).load();
 
         return dataSource;
-    }
+    }*/
 }

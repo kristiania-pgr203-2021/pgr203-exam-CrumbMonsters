@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kristiania Questionnaire</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="styling">
+  <h1>Answers</h1>
+
+  <div id="answers"></div>
+
+</div>
+</body>
+
+<script>
+  fetch("/api/viewAnswers")
+          .then(function(response) {
+            return response.text();
+          }).then(function(text) {
+    document.getElementById("answers").innerHTML = text;
+  });
+
+</script>
+
+</html>

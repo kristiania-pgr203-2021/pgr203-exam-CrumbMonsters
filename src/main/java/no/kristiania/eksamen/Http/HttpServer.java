@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.http.HttpClient;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +56,9 @@ public class HttpServer {
         if (controllers.containsKey(fileTarget)) {
             HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
-        } else if ("/api/alternativeAnswers".equals(fileTarget)) {
+        } else if (fileTarget.isBlank()) {
+            fileTarget.replaceAll("/.", "/index.html");
+        }else if ("/api/alternativeAnswers".equals(fileTarget)) {
             String yourName = "world";
             if (query != null) {
                 Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
