@@ -15,12 +15,15 @@ public class ListQuestionsController implements HttpController{
 
     @Override
     public HttpMessage handle(HttpMessage request) throws SQLException {
-        String response = "";
+        String response = "<form action=\"/api/answer\" method=\"post\">";
+
         for (Question question :
                 questionDao.listAll()) {
-            response += "<div>" + question.getTitle() + ": " + question.getName() +
-                    "<input type='text' value='' name='questionAnswer' />" + "<button>Submit</button>"+ "</div>";
+            response += question.getTitle() + ": " + question.getName() +
+                    "<input type='text' value='' name='questionAnswer' /><button>Submit</button><br>";
         }
+
+        response += "</form>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }

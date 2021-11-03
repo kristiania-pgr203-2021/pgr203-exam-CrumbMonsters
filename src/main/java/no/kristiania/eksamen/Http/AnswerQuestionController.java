@@ -16,13 +16,14 @@ public class AnswerQuestionController implements HttpController {
     }
 
     @Override
-    public HttpMessage handle(HttpMessage request) throws SQLException {
+    public HttpMessage handle(HttpMessage request) throws SQLException, IOException {
         Map<String, String> queryMap = HttpMessage.parseRequestParameters(request.messageBody);
         Question ans = new Question();
         ans.setName(queryMap.get("questionName"));
         ans.setAnswer(queryMap.get("questionAnswer"));
-        AnswerDao.answer(ans);
+        QuestionDao.answer(ans);
 
-        return new HttpMessage("HTTP/1.1 200 OK", "It is done");
+        String response = "OK";
+        return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }

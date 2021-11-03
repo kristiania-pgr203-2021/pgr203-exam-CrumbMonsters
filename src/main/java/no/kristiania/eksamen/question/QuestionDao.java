@@ -18,6 +18,24 @@ public class QuestionDao {
         this.dataSource = dataSource;
     }
 
+    public static void answer(Question question) throws SQLException, IOException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "insert into answers (questionname, questionanswer) values (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            )) {
+                statement.setString(1, question.getName());
+                statement.setString(2, question.getAnswer());
+                statement.executeUpdate();
+
+                try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                    resultSet.next();
+                    Answer.setId(resultSet.getLong("answerid"));
+                }
+            }
+        }
+    }
+
 
     public Question retrieve (String questionName) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
