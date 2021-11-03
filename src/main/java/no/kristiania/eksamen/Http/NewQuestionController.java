@@ -22,6 +22,10 @@ public class NewQuestionController implements HttpController {
         question.setName(queryMap.get("questionName"));
         QuestionDao.save(question);
 
-        return new HttpMessage("HTTP/1.1 200 OK", "It is done");
+        return new HttpMessage("HTTP/1.1 200 OK", "\"Product added to inventory<br><br>\" +\n" +
+                "                        \"<a href=\\\"/newProduct.html\\\">Click to add more products</a>\" +\n" +
+                "                        \"<br>\" +\n" +
+                "                        \"<a href=\\\"/listProducts.html\\\">Click to view all products</a>\" +\n" +
+                "                        \"<br>\"");
     }
 }
