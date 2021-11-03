@@ -15,10 +15,10 @@ public class QuestionDao {
     private static DataSource dataSource;
 
     public QuestionDao (DataSource dataSource) {
-        this.dataSource = dataSource;
+        QuestionDao.dataSource = dataSource;
     }
 
-    public static void answer(Question question) throws SQLException, IOException {
+    public static void answer(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "insert into answers (questionname, questionanswer) values (?, ?)",
@@ -35,7 +35,6 @@ public class QuestionDao {
             }
         }
     }
-
 
     public Question retrieve (String questionName) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
@@ -65,19 +64,6 @@ public class QuestionDao {
             }
         }
     }
-
-    /*public static void answer (Question question) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into answers (questionname, questionanswer) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            )) {
-                statement.setString(1, question.getName());
-                statement.setString(2, question.getAnswer());
-
-                statement.executeUpdate();
-            }
-        }
-    }*/
 
     public List<Question> listByTitle(String questionTitle) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
