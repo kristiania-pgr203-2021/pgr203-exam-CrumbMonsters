@@ -21,7 +21,8 @@ public class QuestionnaireServer {
         QuestionDao questionDao = new QuestionDao (dataSource);
         HttpServer httpServer = new HttpServer(1962);
         httpServer.addController("/api/questions", new ListQuestionsController(questionDao));
-        //httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
+        //httpServer.addController("/api/answer", new NewQuestionController(questionDao));
+        httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
         logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 

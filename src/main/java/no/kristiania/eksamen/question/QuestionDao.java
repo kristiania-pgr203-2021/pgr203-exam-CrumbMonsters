@@ -18,8 +18,8 @@ public class QuestionDao {
         this.dataSource = dataSource;
     }
 
-    public Question retrieve (String questionName) throws SQLException {
 
+    public Question retrieve (String questionName) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "select * from questions where questionname = ?"
@@ -48,7 +48,7 @@ public class QuestionDao {
         }
     }
 
-    public static void answer (Question question) throws SQLException {
+    /*public static void answer (Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("insert into answers (questionname, questionanswer) values (?, ?)",
                     Statement.RETURN_GENERATED_KEYS
@@ -59,7 +59,7 @@ public class QuestionDao {
                 statement.executeUpdate();
             }
         }
-    }
+    }*/
 
     public List<Question> listByTitle(String questionTitle) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {

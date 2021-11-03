@@ -5,14 +5,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDao {/*
-    private final DataSource dataSource;
+public class AnswerDao {
+
+    private static DataSource dataSource;
 
     public AnswerDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void save (Question question) throws SQLException {
+    public static void answer(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "insert into answers (questionname, questionanswer) values (?, ?)",
@@ -67,5 +68,5 @@ public class AnswerDao {/*
         answer.setName(rs.getString("questionName"));
         answer.setAnswer(rs.getString("questionAnswer"));
         return answer;
-    }*/
+    }
 }
