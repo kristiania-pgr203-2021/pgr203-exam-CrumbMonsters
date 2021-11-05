@@ -1,19 +1,13 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.question.Question;
-import no.kristiania.eksamen.question.QuestionDao;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.http.HttpClient;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static no.kristiania.eksamen.Http.HttpMessage.parseRequestParameters;
 
 public class HttpServer {
 
@@ -32,7 +26,7 @@ public class HttpServer {
                 handleClient();
             }
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
+            return write500();
         }
     }
 
@@ -56,9 +50,7 @@ public class HttpServer {
         if (controllers.containsKey(fileTarget)) {
             HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
-        } else if (fileTarget.isBlank()) {
-            fileTarget.replaceAll("/.", "/index.html");
-        }else if ("/api/alternativeAnswers".equals(fileTarget)) {
+        } else if ("/api/alternativeAnswers".equals(fileTarget)) {
             String yourName = "world";
             if (query != null) {
                 Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
@@ -107,6 +99,15 @@ public class HttpServer {
     private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Length: " + responseText.length() + "\r\n" +
+                "Content-Type: " + contentType + "\r\n" +
+                "Connection: close\r\n" +
+                "\r\n" +
+                responseText;
+        clientSocket.getOutputStream().write(response.getBytes());
+    }
+
+    private void write500(Socket clientSocket, String responseText, String contentType) throws IOException {
+        String response = "HTTP/1.1 500 BUHU\r\n" +
                 "Content-Type: " + contentType + "\r\n" +
                 "Connection: close\r\n" +
                 "\r\n" +
