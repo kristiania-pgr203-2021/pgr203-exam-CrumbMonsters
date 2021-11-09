@@ -16,10 +16,12 @@ public class AnswerQuestionController implements HttpController {
     @Override
     public HttpMessage handle(HttpMessage request) throws SQLException {
         Map<String, String> queryMap = HttpMessage.parseRequestParameters(request.messageBody);
-        Question ans = new Question();
-        ans.setName(queryMap.get("questionName"));
-        ans.setAnswer(queryMap.get("questionAnswer"));
-        QuestionDao.answer(ans);
+        for (Question question :
+                questionDao.listAll()) {
+        question.setName(queryMap.get("questionName"));
+        question.setAnswer(queryMap.get("questionAnswer"));
+        QuestionDao.answer(question);
+        }
 
         String response = "<a href='/index.html'>Answer registered. Click to go to index</a>";
         return new HttpMessage("HTTP/1.1 200 OK", response);

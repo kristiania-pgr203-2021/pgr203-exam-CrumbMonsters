@@ -1,7 +1,7 @@
 body {
     background: lightgrey;
     color: cornflowerblue;
-    font-family: "Apple Color Emoji";
+    font-family: Serif;
     font-size: larger;
 }
 
@@ -18,7 +18,7 @@ h1 {
 }
 
 @keyframes colorRotate {
-    0% {
+    from {
         color: #6666ff;
     }
     25% {

@@ -26,7 +26,7 @@ public class HttpServer {
                 handleClient();
             }
         } catch (IOException | SQLException e) {
-            return write500();
+            e.printStackTrace();
         }
     }
 
@@ -50,24 +50,6 @@ public class HttpServer {
         if (controllers.containsKey(fileTarget)) {
             HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
-        } else if ("/api/alternativeAnswers".equals(fileTarget)) {
-            String yourName = "world";
-            if (query != null) {
-                Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
-                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
-            }
-            String responseText = "<p>Hello " + yourName + "</p>";
-
-            writeOkResponse(clientSocket, responseText, "text/html");
-        } else if ("/api/questionOptions".equals(fileTarget)) {
-            String yourName = "world";
-            if (query != null) {
-                Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
-                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
-            }
-            String responseText = "<p>Hello " + yourName + "</p>";
-
-            writeOkResponse(clientSocket, responseText, "text/html");
         } else {
             InputStream fileResource = getClass().getResourceAsStream(fileTarget);
             if (fileResource != null) {
@@ -99,15 +81,6 @@ public class HttpServer {
     private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Length: " + responseText.length() + "\r\n" +
-                "Content-Type: " + contentType + "\r\n" +
-                "Connection: close\r\n" +
-                "\r\n" +
-                responseText;
-        clientSocket.getOutputStream().write(response.getBytes());
-    }
-
-    private void write500(Socket clientSocket, String responseText, String contentType) throws IOException {
-        String response = "HTTP/1.1 500 BUHU\r\n" +
                 "Content-Type: " + contentType + "\r\n" +
                 "Connection: close\r\n" +
                 "\r\n" +
