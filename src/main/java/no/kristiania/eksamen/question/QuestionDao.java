@@ -21,11 +21,12 @@ public class QuestionDao {
     public static void answer(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into answers (questionName, questionanswer) values (?, ?)"
-                    //Statement.RETURN_GENERATED_KEYS
+                    "insert into answers (questionName, questionanswer) values (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
             )) {
-                statement.setString(1, question.getName());
-                statement.setString(2, question.getAnswer());
+                statement.setLong(1, question.getId());
+                statement.setString(2, question.getName());
+                statement.setString(3, question.getAnswer());
                 statement.executeUpdate();
 
                 /*try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -100,6 +101,8 @@ public class QuestionDao {
 
     private Question readFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
+
+        question.setId(rs.getLong("questionId"));
         question.setTitle(rs.getString("questionTitle"));
         question.setName(rs.getString("questionName"));
 
@@ -108,8 +111,11 @@ public class QuestionDao {
 
     private Question mapFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
+
+        question.setId(rs.getLong("questionId"));
         question.setTitle(rs.getString("questionTitle"));
         question.setName(rs.getString("questionName"));
+
         return question;
     }
 
