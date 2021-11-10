@@ -35,24 +35,9 @@ public class ListQuestionsController implements HttpController{
         }
 
         for (int i = 0; i < arrayList.size(); i++) {
-            response += arrayList.get(i) + "<input type='text' name='questionAnswer' />" +
-                    "<form action='/api/answer' method='post'> <button>Submit</button> </form> <br>";
+            response += arrayList.get(i) + "<form action='/api/answer' method='post'>" + "<input type='text' name='questionAnswer' />" +
+                    "<button>Submit</button> </form> <br>";
         }
-
-
-
-        /*HashMap<String, String> map = new HashMap<>();
-
-        for (Question question :
-                questionDao.listAll()) {
-            question.setTitle("questionTitle");
-            question.setName("questionName");
-            map.put(question.getTitle(), question.getName());
-        }
-
-        for (int i = 0; i < map.size(); i++) {
-            response += map.get(i);
-        }*/
 
         return new HttpMessage("HTTP/1.1 200 OK", response);
 
@@ -63,8 +48,10 @@ public class ListQuestionsController implements HttpController{
         for (Question question :
                 questionDao.listAll()) {
             response.append(form).append(question.getTitle()).append(": ").append(question.getName())
-                    .append("<input type='text' value='' name='questionAnswer' /><button>Submit</button></form><br>");
+                    .append("<input type='text' value='' name='questionAnswer' /><br>");
         }
+
+        response.append("<button>Submit</button></form>");
 
         return new HttpMessage("HTTP/1.1 200 OK", response.toString());*/
         }
