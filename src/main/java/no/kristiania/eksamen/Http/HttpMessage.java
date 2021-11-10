@@ -75,6 +75,7 @@ public class HttpMessage {
         String response = startLine + "\r\n" +
                 "Content-Length: " + messageBody.getBytes().length + "\r\n" +
                 "Connection: close\r\n" +
+                "Content-Type: text/html; charset=utf-8" + "\r\n" +
                 "\r\n" +
                 messageBody;
         socket.getOutputStream().write(response.getBytes());

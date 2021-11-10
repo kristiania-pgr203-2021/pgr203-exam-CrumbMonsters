@@ -98,32 +98,11 @@ public class QuestionDao {
         }
     }
 
-    public List<Question> listAllAnswers() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("select * from answers")) {
-                try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<Question> res = new ArrayList<>();
-                    while (rs.next()) {
-                        res.add(readFromResultSetTwo(rs));
-                    }
-                    return res;
-                }
-            }
-        }
-    }
-
     private Question readFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
         question.setTitle(rs.getString("questionTitle"));
         question.setName(rs.getString("questionName"));
 
-        return question;
-    }
-
-    private Question readFromResultSetTwo (ResultSet rs) throws SQLException {
-        Question question = new Question();
-        question.setName(rs.getString("questionName"));
-        question.setAnswer(rs.getString("questionAnswer"));
         return question;
     }
 

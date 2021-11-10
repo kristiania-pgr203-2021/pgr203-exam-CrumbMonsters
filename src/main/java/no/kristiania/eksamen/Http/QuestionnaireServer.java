@@ -1,6 +1,7 @@
 package no.kristiania.eksamen.Http;
 
 import no.kristiania.eksamen.question.QuestionDao;
+import no.kristiania.eksamen.question.AnswerDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
@@ -19,11 +20,12 @@ public class QuestionnaireServer {
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         DataSource dataSource = createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
+        AnswerDao answerDao = new AnswerDao(dataSource);
         HttpServer httpServer = new HttpServer(1962);
-        httpServer.addController("/api/questions", new ListQuestionsController(questionDao));
-        httpServer.addController("/api/answer", new AnswerQuestionController(questionDao));
+        httpServer.addController("/api/questions", new ListQuestionsController(questionDao, answerDao));
+        httpServer.addController("/api/answer", new AnswerQuestionController(questionDao, answerDao));
         httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
-        httpServer.addController("/api/viewAnswers", new viewAnswersController(questionDao));
+        httpServer.addController("/api/viewAnswers", new viewAnswersController(answerDao));
         logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 

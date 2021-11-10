@@ -1,7 +1,7 @@
 package no.kristiania.eksamen.question;
 
 public class Answer {
-    /*private static String name;
+    private static String name;
     private static String answer;
     private static long id;
 
@@ -27,5 +27,5 @@ public class Answer {
 
     public void setAnswer(String answer) {
         Answer.answer = answer;
-    }*/
+    }
 }

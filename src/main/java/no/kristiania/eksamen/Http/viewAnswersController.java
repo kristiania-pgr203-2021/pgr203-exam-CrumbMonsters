@@ -10,20 +10,21 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class viewAnswersController implements HttpController {
-    private final QuestionDao questionDao;
 
-    public viewAnswersController (QuestionDao questionDao) {
-        this.questionDao = questionDao;
+    private AnswerDao answerDao;
+
+    public viewAnswersController (AnswerDao answerDao) {
+        this.answerDao = answerDao;
     }
 
     @Override
     public HttpMessage handle(HttpMessage request) throws SQLException {
-        String response = "";
-        for (Question question :
-                questionDao.listAllAnswers()) {
-            response += question.getName() + ": " + question.getAnswer() + "<br>";
+        StringBuilder response = new StringBuilder();
+        for (Answer answer :
+                answerDao.listAllAnswers()) {
+            response.append(answer.getName()).append(": ").append(answer.getAnswer()).append("<br>");
         }
 
-        return new HttpMessage("HTTP/1.1 200 OK", response);
+        return new HttpMessage("HTTP/1.1 200 OK", response.toString());
     }
 }

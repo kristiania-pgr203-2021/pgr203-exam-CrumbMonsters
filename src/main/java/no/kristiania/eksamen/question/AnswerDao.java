@@ -13,21 +13,42 @@ import java.util.Properties;
 
 public class AnswerDao {
 
-    /*private static DataSource dataSource;
+    private static DataSource dataSource;
 
     public AnswerDao (DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public List<String> listAll() throws SQLException {
+    public void save(Answer answer) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "insert into answers (questionanswer) values (?)",
+                    Statement.RETURN_GENERATED_KEYS
+            )) {
+                statement.setString(1, answer.getAnswer());
+
+                statement.executeUpdate();
+
+                try (ResultSet rs = statement.getGeneratedKeys()) {
+                    rs.next();
+                    answer.setId(rs.getLong("id"));
+                }
+            }
+        }
+    }
+
+    public List<Answer> listAllAnswers() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("select * from answers")) {
                 try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<String> result = new ArrayList<>();
+                    ArrayList<Answer> res = new ArrayList<>();
                     while (rs.next()) {
-                        result.add(rs.getString("questionName"));
+                        Answer answer = new Answer();
+                        answer.setAnswer(rs.getString("questionAnswer"));
+                        res.add(answer);
                     }
-                    return result;
+                    return res;
                 }
             }
         }
@@ -71,5 +92,5 @@ public class AnswerDao {
         Flyway.configure().dataSource(dataSource).load();
 
         return dataSource;
-    }*/
+    }
 }

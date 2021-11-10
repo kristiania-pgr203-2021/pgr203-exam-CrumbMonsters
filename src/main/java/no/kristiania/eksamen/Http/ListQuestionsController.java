@@ -1,6 +1,7 @@
 package no.kristiania.eksamen.Http;
 
 import no.kristiania.eksamen.question.Answer;
+import no.kristiania.eksamen.question.AnswerDao;
 import no.kristiania.eksamen.question.Question;
 import no.kristiania.eksamen.question.QuestionDao;
 
@@ -12,9 +13,11 @@ import java.util.Map;
 public class ListQuestionsController implements HttpController{
     
     private final QuestionDao questionDao;
+    private final AnswerDao answerDao;
 
-    public ListQuestionsController(QuestionDao questionDao) {
+    public ListQuestionsController(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
+        this.answerDao = answerDao;
     }
 
     @Override
