@@ -1,58 +1,35 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.question.Answer;
-import no.kristiania.eksamen.question.AnswerDao;
 import no.kristiania.eksamen.question.Question;
 import no.kristiania.eksamen.question.QuestionDao;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ListQuestionsController implements HttpController{
-    
-    private final QuestionDao questionDao;
-    private final AnswerDao answerDao;
 
-    public ListQuestionsController(QuestionDao questionDao, AnswerDao answerDao) {
+    private final QuestionDao questionDao;
+    public ListQuestionsController(QuestionDao questionDao) {
         this.questionDao = questionDao;
-        this.answerDao = answerDao;
     }
 
     @Override
     public HttpMessage handle(HttpMessage request) throws SQLException {
-        String response = "";
+         /*String response = "";
+         for (Question question :
+                 questionDao.listAll()) {
+             response += question.getTitle() + ": " + question.getName() +
+                     "<input type='text' value='' name='questionAnswer' />" +
+                     "<form action=\"/api/answer\" method=\"post\"><button>Submit</button></form>";
+         }
 
-        ArrayList<Question> arrayList = new ArrayList<>();
-
-        for (Question question :
-                questionDao.listAll()) {
-            question.getTitle();
-            question.getName();
-
-            arrayList.add(question);
-        }
-
-        for (int i = 0; i < arrayList.size(); i++) {
-            response += arrayList.get(i) + "<form action='/api/answer' method='post'>" + "<input type='text' name='questionAnswer' />" +
-                    "<button>Submit</button> </form> <br>";
-        }
-
-        return new HttpMessage("HTTP/1.1 200 OK", response);
-
-
-        /*String form = "<form action=\"/api/answer\" method=\"post\">";
+          */
+        String form = "<form action=\"/api/answer\" method=\"post\">";
         StringBuilder response = new StringBuilder();
-
         for (Question question :
                 questionDao.listAll()) {
             response.append(form).append(question.getTitle()).append(": ").append(question.getName())
-                    .append("<input type='text' value='' name='questionAnswer' /><br>");
+                    .append("<input type='text' value='' name='questionAnswer' /><button>Submit</button></form><br>");
         }
-
-        response.append("<button>Submit</button></form>");
-
-        return new HttpMessage("HTTP/1.1 200 OK", response.toString());*/
-        }
+        return new HttpMessage("HTTP/1.1 200 OK", response.toString());
+    }
 }

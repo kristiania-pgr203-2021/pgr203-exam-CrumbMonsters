@@ -5,6 +5,11 @@ public class Question {
     private String name;
     private String answer;
 
+    @Override
+    public String toString() {
+        return title + ", " + name;
+    }
+
     public String getAnswer() {
         return answer;
     }

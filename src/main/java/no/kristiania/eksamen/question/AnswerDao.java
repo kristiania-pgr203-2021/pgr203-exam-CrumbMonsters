@@ -78,19 +78,4 @@ public class AnswerDao {
         answer.setAnswer(rs.getString("questionAnswer"));
         return answer;
     }
-
-    public static DataSource dataSource() throws IOException {
-        FileInputStream fis = new FileInputStream("src/main/resources/properties/config.properties");
-        Properties properties = new Properties();
-        properties.load(fis);
-
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(properties.getProperty("URL"));
-        dataSource.setUser(properties.getProperty("username"));
-        dataSource.setPassword(properties.getProperty("password"));
-
-        Flyway.configure().dataSource(dataSource).load();
-
-        return dataSource;
-    }
 }

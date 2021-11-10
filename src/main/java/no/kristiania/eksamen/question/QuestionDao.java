@@ -65,21 +65,6 @@ public class QuestionDao {
         }
     }
 
-    public static void saveAnswer (Question answer) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-
-            try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into answers (questionname, questionanswer) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            )) {
-                statement.setString(1, answer.getName());
-                statement.setString(2, answer.getAnswer());
-
-                statement.executeUpdate();
-            }
-        }
-    }
-
     public List<Question> listByTitle(String questionTitle) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
