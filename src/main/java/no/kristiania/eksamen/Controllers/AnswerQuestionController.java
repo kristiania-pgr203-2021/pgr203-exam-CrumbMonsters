@@ -45,8 +45,9 @@ public class AnswerQuestionController implements HttpController {
         answerDao.answer(answer);
 
         String response = "<a href='/index.html'>Click to go to index</a><br>" +
-                "<a href='/newQuestion.html'>Click to add more questions</a>";
+                "<a href='/newQuestion.html'>Click to add more questions</a>" +
+                "<a href='/listQuestions.html'>Click to answer more questions</a>";
 
-        return new HttpMessage("HTTP/1.1 300 Redirect", response);
+        return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }
