@@ -11,10 +11,25 @@ body {
     margin-top: 50px;
 }
 
+
 h1 {
     text-decoration: underline;
     font-size: 32px;
     animation: colorRotate 6s linear 0s infinite;
+}
+
+#questionList {
+    border: black;
+    border: 50px;
+    text-underline: black;
+    color: black;
+}
+
+
+#break {
+    border: 2px;
+    padding: 10px;
+    margin: 10px;
 }
 
 @keyframes colorRotate {

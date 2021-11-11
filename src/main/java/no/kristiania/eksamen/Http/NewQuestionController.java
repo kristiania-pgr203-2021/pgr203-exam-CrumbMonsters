@@ -28,9 +28,11 @@ public class NewQuestionController implements HttpController {
 
         question.setTitle(decodedTitle);
         question.setName(decodedName);
-        QuestionDao.save(question);
 
-        String response = "<a href='/index.html'>Question added. Click to go to index</a>";
+        questionDao.save(question);
+
+        String response = "<a href='/index.html'>Click to go to index</a><br>" +
+                "<a href='/newQuestion.html'>Click to add more questions</a>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }

@@ -28,7 +28,7 @@ public class AnswerQuestionController implements HttpController {
         for (int i = 0; i < questionDao.listAll().size(); i++) {
             if (i == Integer.parseInt(name)) {
                 nameToString = String.valueOf(questionDao.listAll().get(i));
-                System.out.println(questionDao.listAll().get(i));
+                //System.out.println(questionDao.listAll().get(i));
             }
         }
         String nameToStringDecoded = URLDecoder.decode(nameToString, StandardCharsets.UTF_8.name());
@@ -40,6 +40,9 @@ public class AnswerQuestionController implements HttpController {
 
         questionDao.answer(answer);
 
-        return new HttpMessage("HTTP/1.1 200 OK", "OK");
+        String response = "<a href='/index.html'>Click to go to index</a><br>" +
+                "<a href='/newQuestion.html'>Click to add more questions</a>";
+
+        return new HttpMessage("HTTP/1.1 300 Redirect", response);
     }
 }

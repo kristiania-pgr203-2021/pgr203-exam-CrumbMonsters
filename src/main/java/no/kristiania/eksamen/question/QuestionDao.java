@@ -49,9 +49,10 @@ public class QuestionDao {
         try (Connection connection = dataSource.getConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into questions (questionname) values (?)"
+                    "insert into questions (questiontitle, questionname) values (?, ?)"
             )) {
-                statement.setString(1, question.getName());
+                statement.setString(1, question.getTitle());
+                statement.setString(2, question.getName());
 
                 statement.executeUpdate();
             }
@@ -73,21 +74,24 @@ public class QuestionDao {
         }
     }
 
-    public List<Question> listAllSelect() throws SQLException {
+
+    public List<Question> listByTitle() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from questions")) {
+                    "select * from questions where questiontitle = ?"
+            )) {
+                statement.setString(1, "questionTitle");
                 try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<Question> res = new ArrayList<>();
-                    while (rs.next()){
-                        res.add(readFromResultSet(rs));
+                    ArrayList<Question> questions = new ArrayList<>();
+
+                    while (rs.next()) {
+                        questions.add(mapFromResultSet(rs));
                     }
-                    return res;
+                    return questions;
                 }
             }
         }
     }
-
 
     private Question readFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
