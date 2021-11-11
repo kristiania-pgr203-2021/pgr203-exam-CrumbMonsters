@@ -16,7 +16,7 @@ public class QuestionDaoTest {
     void shouldRetrieveQuestion() throws SQLException {
         Question question = exampleQuestion();
         dao.save(question);
-        assertThat(dao.retrieve(question.getName()))
+        assertThat(dao.retrieve(question.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(question);
     }

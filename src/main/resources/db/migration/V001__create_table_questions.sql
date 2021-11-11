@@ -1,5 +1,6 @@
 create table questions
 (
-    questionTitle varchar(100),
-    questionName varchar(1000) primary key
+    question_Id serial primary key,
+    question_Title varchar(100),
+    question_Name varchar(1000)
 );
