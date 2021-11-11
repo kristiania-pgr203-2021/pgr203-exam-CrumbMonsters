@@ -7,7 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class HttpServer {
 
@@ -50,15 +49,6 @@ public class HttpServer {
         if (controllers.containsKey(fileTarget)) {
             HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
-        } else if (fileTarget.equals("/hello")) {
-            String yourName = "world";
-            if (query != null) {
-                Map<String, String> queryMap = HttpMessage.parseRequestParameters(query);
-                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
-            }
-            String responseText = "<p>Hello " + yourName + "</p>";
-
-            writeOkResponse(clientSocket, responseText, "text/html");
         } else {
             InputStream fileResource = getClass().getResourceAsStream(fileTarget);
             if (fileResource != null) {
@@ -87,7 +77,7 @@ public class HttpServer {
         }
     }
 
-    private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {
+    private void writeOkResponse (Socket clientSocket, String responseText, String contentType) throws IOException {
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Length: " + responseText.length() + "\r\n" +
                 "Content-Type: " + contentType + "\r\n" +

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kristiania Questionnaire</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="styling">
+<h1>Questionnaire</h1>
+
+    <div id="questionList"></div>
+
+    <form action="/api/answer" method="post">
+        <p>
+            <label>Question: <select name="questionName" id="question"></select></label>
+            <label>Answer: <input type="text" name="questionAnswer"></label>
+        </p>
+        <button>Submit</button>
+    </form>
+
+<div>
+    <a href="newQuestion.html">Add new questions</a>
+    <a href="index.html">Go back to index</a>
+</div>
+
+</div>
+</body>
+
+<script>
+    fetch("/api/listQuestions")
+        .then(function(response) {
+            return response.text();
+        }).then(function(text) {
+        document.getElementById("questionList").innerHTML = text;
+    });
+
+    fetch("/api/questionSelect")
+        .then(function(response) {
+            return response.text();
+        }).then(function(text) {
+        document.getElementById("question").innerHTML = text;
+    });
+
+
+
+</script>
+
+</html>
