@@ -1,4 +1,4 @@
-package no.kristiania.eksamen.question;
+package no.kristiania.eksamen.Objects;
 
 public class Question {
     private String title;
@@ -31,6 +31,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return title + ", " + name;
+        return name;
     }
 }

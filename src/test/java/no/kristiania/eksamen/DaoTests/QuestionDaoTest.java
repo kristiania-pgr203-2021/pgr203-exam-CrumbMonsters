@@ -1,13 +1,9 @@
 package no.kristiania.eksamen.DaoTests;
 
-import no.kristiania.eksamen.question.Question;
-import no.kristiania.eksamen.question.QuestionDao;
-import org.flywaydb.core.Flyway;
-import org.h2.jdbcx.JdbcDataSource;
+import no.kristiania.eksamen.Objects.Question;
+import no.kristiania.eksamen.Objects.QuestionDao;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import javax.sql.DataSource;
 
 import java.sql.SQLException;
 

@@ -1,47 +1,30 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.question.QuestionDao;
-import no.kristiania.eksamen.question.AnswerDao;
-import org.flywaydb.core.Flyway;
-import org.postgresql.ds.PGSimpleDataSource;
+import no.kristiania.eksamen.Controllers.*;
+import no.kristiania.eksamen.Objects.QuestionDao;
+import no.kristiania.eksamen.Objects.AnswerDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Properties;
 
 public class QuestionnaireServer {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
-        DataSource dataSource = createDataSource();
+        DataSource dataSource = Datasource.createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao(dataSource);
         HttpServer httpServer = new HttpServer(1962);
         httpServer.addController("/api/listQuestions", new ListQuestionsController(questionDao));
         httpServer.addController("/api/questionSelect", new questionSelectController(questionDao));
-        httpServer.addController("/api/answer", new AnswerQuestionController(questionDao));
+        httpServer.addController("/api/answer", new AnswerQuestionController(answerDao, questionDao));
         httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
         httpServer.addController("/api/viewAnswers", new viewAnswersController(answerDao));
         logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 
-    private static DataSource createDataSource() throws IOException, GeneralSecurityException {
-        FileInputStream fis = new FileInputStream("src/main/resources/properties/config.properties");
-        Properties properties = new Properties();
-        properties.load(fis);
-
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(properties.getProperty("URL"));
-        dataSource.setUser(properties.getProperty("username"));
-        dataSource.setPassword(properties.getProperty("password"));
-
-        Flyway.configure().dataSource(dataSource).load();
-
-        return dataSource;
-    }
 }

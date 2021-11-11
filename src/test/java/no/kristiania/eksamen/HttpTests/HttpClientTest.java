@@ -1,7 +1,6 @@
 package no.kristiania.eksamen.HttpTests;
 
 import no.kristiania.eksamen.Http.HttpClient;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

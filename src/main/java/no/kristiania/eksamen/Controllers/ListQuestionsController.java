@@ -1,10 +1,11 @@
-package no.kristiania.eksamen.Http;
+package no.kristiania.eksamen.Controllers;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
-import no.kristiania.eksamen.question.Question;
-import no.kristiania.eksamen.question.QuestionDao;
+import no.kristiania.eksamen.Http.HttpController;
+import no.kristiania.eksamen.Http.HttpMessage;
+import no.kristiania.eksamen.Objects.Question;
+import no.kristiania.eksamen.Objects.QuestionDao;
 
 public class ListQuestionsController implements HttpController {
 
@@ -15,12 +16,13 @@ public class ListQuestionsController implements HttpController {
     }
 
     @Override
-    public HttpMessage handle(HttpMessage request) throws SQLException, IOException {
+    public HttpMessage handle(HttpMessage request) throws SQLException {
         String response = "";
         for (Question question :
                 questionDao.listAll()) {
-            response += "<p>" + question.getTitle() + ", " + question.getName() + "<br>";
+            response += "<p>" + question.getTitle() + ", " + question.getName() + "</p>";
         }
+        response += "<br><br>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }

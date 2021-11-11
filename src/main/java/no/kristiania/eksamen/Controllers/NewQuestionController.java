@@ -1,7 +1,9 @@
-package no.kristiania.eksamen.Http;
+package no.kristiania.eksamen.Controllers;
 
-import no.kristiania.eksamen.question.Question;
-import no.kristiania.eksamen.question.QuestionDao;
+import no.kristiania.eksamen.Http.HttpController;
+import no.kristiania.eksamen.Http.HttpMessage;
+import no.kristiania.eksamen.Objects.Question;
+import no.kristiania.eksamen.Objects.QuestionDao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -24,8 +26,6 @@ public class NewQuestionController implements HttpController {
 
         String decodedTitle = URLDecoder.decode(queryMap.get("questionTitle"), StandardCharsets.UTF_8.name());
         String decodedName = URLDecoder.decode(queryMap.get("questionName"), StandardCharsets.UTF_8.name());
-
-
         question.setTitle(decodedTitle);
         question.setName(decodedName);
 

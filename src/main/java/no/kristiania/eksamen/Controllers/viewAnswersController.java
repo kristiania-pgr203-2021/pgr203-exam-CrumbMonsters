@@ -1,13 +1,11 @@
-package no.kristiania.eksamen.Http;
+package no.kristiania.eksamen.Controllers;
 
-import no.kristiania.eksamen.question.Answer;
-import no.kristiania.eksamen.question.AnswerDao;
-import no.kristiania.eksamen.question.Question;
-import no.kristiania.eksamen.question.QuestionDao;
+import no.kristiania.eksamen.Http.HttpController;
+import no.kristiania.eksamen.Http.HttpMessage;
+import no.kristiania.eksamen.Objects.Answer;
+import no.kristiania.eksamen.Objects.AnswerDao;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class viewAnswersController implements HttpController {
 
@@ -22,7 +20,7 @@ public class viewAnswersController implements HttpController {
         StringBuilder response = new StringBuilder();
         for (Answer answer :
                 answerDao.listAllAnswers()) {
-            response.append(answer.getName()).append(": ").append(answer.getAnswer()).append("<br>");
+            response.append(answer.getName()).append(", ").append(answer.getAnswer()).append("<br>");
         }
 
         return new HttpMessage("HTTP/1.1 200 OK", response.toString());
