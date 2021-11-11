@@ -4,15 +4,6 @@ public class Question {
     private String title;
     private String name;
     private String answer;
-    private long id;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getAnswer() {
         return answer;
@@ -40,6 +31,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return id + ", " + title + ", " + name;
+        return title + ", " + name;
     }
 }

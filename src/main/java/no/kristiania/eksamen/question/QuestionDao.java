@@ -15,24 +15,17 @@ public class QuestionDao {
     private static DataSource dataSource;
 
     public QuestionDao (DataSource dataSource) {
-        QuestionDao.dataSource = dataSource;
+        this.dataSource = dataSource;
     }
 
     public static void answer(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into answers (questionName, questionanswer) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
+                    "insert into answers (questionName, questionAnswer) values (?, ?)"
             )) {
-                statement.setLong(1, question.getId());
-                statement.setString(2, question.getName());
-                statement.setString(3, question.getAnswer());
+                statement.setString(1, question.getName());
+                statement.setString(2, question.getAnswer());
                 statement.executeUpdate();
-
-                /*try (ResultSet resultSet = statement.getGeneratedKeys()) {
-                    resultSet.next();
-                    Answer.setId(resultSet.getLong("answerid"));
-                }*/
             }
         }
     }
@@ -56,30 +49,11 @@ public class QuestionDao {
         try (Connection connection = dataSource.getConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into questions (questiontitle, questionname) values (?, ?)"
+                    "insert into questions (questionname) values (?)"
             )) {
-                statement.setString(1, question.getTitle());
-                statement.setString(2, question.getName());
+                statement.setString(1, question.getName());
 
                 statement.executeUpdate();
-            }
-        }
-    }
-
-    public List<Question> listByTitle(String questionTitle) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from questions where questions.questionTitle ilike ?"
-            )) {
-                statement.setString(1, questionTitle);
-                try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<Question> questions = new ArrayList<>();
-
-                    while (rs.next()) {
-                        questions.add(mapFromResultSet(rs));
-                    }
-                    return questions;
-                }
             }
         }
     }
@@ -99,10 +73,25 @@ public class QuestionDao {
         }
     }
 
+    public List<Question> listAllSelect() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "select * from questions")) {
+                try (ResultSet rs = statement.executeQuery()) {
+                    ArrayList<Question> res = new ArrayList<>();
+                    while (rs.next()){
+                        res.add(readFromResultSet(rs));
+                    }
+                    return res;
+                }
+            }
+        }
+    }
+
+
     private Question readFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
 
-        question.setId(rs.getLong("questionId"));
         question.setTitle(rs.getString("questionTitle"));
         question.setName(rs.getString("questionName"));
 
@@ -112,8 +101,15 @@ public class QuestionDao {
     private Question mapFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
 
-        question.setId(rs.getLong("questionId"));
         question.setTitle(rs.getString("questionTitle"));
+        question.setName(rs.getString("questionName"));
+
+        return question;
+    }
+
+    private Question readSelectionsFromResultSet(ResultSet rs) throws SQLException {
+        Question question = new Question();
+
         question.setName(rs.getString("questionName"));
 
         return question;

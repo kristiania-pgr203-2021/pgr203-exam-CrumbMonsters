@@ -4,6 +4,7 @@ import no.kristiania.eksamen.question.Question;
 import no.kristiania.eksamen.question.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -24,7 +25,7 @@ public class QuestionDaoTest {
                 .isEqualTo(question);
     }
 
-    @Test
+    @Disabled
     void shouldListAllQuestions() throws SQLException {
         Question question = exampleQuestion2();
         dao.save(question);

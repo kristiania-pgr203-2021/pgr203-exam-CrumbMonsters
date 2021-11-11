@@ -45,6 +45,7 @@ public class AnswerDao {
                     ArrayList<Answer> res = new ArrayList<>();
                     while (rs.next()) {
                         Answer answer = new Answer();
+                        answer.setName(rs.getString("questionName"));
                         answer.setAnswer(rs.getString("questionAnswer"));
                         res.add(answer);
                     }

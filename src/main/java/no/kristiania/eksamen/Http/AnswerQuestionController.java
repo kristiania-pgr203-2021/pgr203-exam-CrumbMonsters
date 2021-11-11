@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class AnswerQuestionController implements HttpController {
@@ -19,14 +18,28 @@ public class AnswerQuestionController implements HttpController {
     }
 
     @Override
-    public HttpMessage handle(HttpMessage request) throws SQLException {
+    public HttpMessage handle(HttpMessage request) throws SQLException, UnsupportedEncodingException {
         Map<String, String> queryMap = HttpMessage.parseRequestParameters(request.messageBody);
-        Question ans = new Question();
-        ans.setId(queryMap.get("questionId"));
-        ans.setAnswer(queryMap.get("questionAnswer"));
-        QuestionDao.answer(ans);
+        Question answer = new Question();
 
-        String response = "<a href='/index.html'>Answer registered. Click to go to index</a>";
-        return new HttpMessage("HTTP/1.1 200 OK", response);
+        String name = queryMap.get("questionName");
+        String nameToString = "";
+
+        for (int i = 0; i < questionDao.listAll().size(); i++) {
+            if (i == Integer.parseInt(name)) {
+                nameToString = String.valueOf(questionDao.listAll().get(i));
+                System.out.println(questionDao.listAll().get(i));
+            }
+        }
+        String nameToStringDecoded = URLDecoder.decode(nameToString, StandardCharsets.UTF_8.name());
+        answer.setName(nameToStringDecoded);
+
+        String answerPreDecoded = queryMap.get("questionAnswer");
+        String answerDecoded = URLDecoder.decode(answerPreDecoded, StandardCharsets.UTF_8.name());
+        answer.setAnswer(answerDecoded);
+
+        questionDao.answer(answer);
+
+        return new HttpMessage("HTTP/1.1 200 OK", "OK");
     }
 }
