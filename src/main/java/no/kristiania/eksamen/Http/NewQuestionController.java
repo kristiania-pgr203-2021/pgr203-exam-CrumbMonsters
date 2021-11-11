@@ -22,9 +22,8 @@ public class NewQuestionController implements HttpController {
         Map<String, String> queryMap = HttpMessage.parseRequestParameters(request.messageBody);
         Question question = new Question();
 
-        String decodedTitle = URLDecoder.decode(queryMap.get("questionTitle"), StandardCharsets.UTF_8.name());
-        String decodedName = URLDecoder.decode(queryMap.get("questionName"), StandardCharsets.UTF_8.name());
-
+        String decodedTitle = URLDecoder.decode(queryMap.get("question_Title"), StandardCharsets.UTF_8.name());
+        String decodedName = URLDecoder.decode(queryMap.get("question_Name"), StandardCharsets.UTF_8.name());
 
         question.setTitle(decodedTitle);
         question.setName(decodedName);

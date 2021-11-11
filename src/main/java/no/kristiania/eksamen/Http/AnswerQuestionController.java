@@ -22,7 +22,7 @@ public class AnswerQuestionController implements HttpController {
         Map<String, String> queryMap = HttpMessage.parseRequestParameters(request.messageBody);
         Question answer = new Question();
 
-        String name = queryMap.get("questionName");
+        String name = queryMap.get("question_Name");
         String nameToString = "";
 
         for (int i = 0; i < questionDao.listAll().size(); i++) {
@@ -34,11 +34,11 @@ public class AnswerQuestionController implements HttpController {
         String nameToStringDecoded = URLDecoder.decode(nameToString, StandardCharsets.UTF_8.name());
         answer.setName(nameToStringDecoded);
 
-        String answerPreDecoded = queryMap.get("questionAnswer");
+        String answerPreDecoded = queryMap.get("question_Answer");
         String answerDecoded = URLDecoder.decode(answerPreDecoded, StandardCharsets.UTF_8.name());
         answer.setAnswer(answerDecoded);
 
-        questionDao.answer(answer);
+        QuestionDao.answer(answer);
 
         String response = "<a href='/index.html'>Click to go to index</a><br>" +
                 "<a href='/newQuestion.html'>Click to add more questions</a>";

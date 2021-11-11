@@ -10,14 +10,13 @@ import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Properties;
 
 public class QuestionnaireServer {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
-    public static void main(String[] args) throws IOException, GeneralSecurityException {
+    public static void main(String[] args) throws IOException {
         DataSource dataSource = createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao(dataSource);
@@ -30,18 +29,36 @@ public class QuestionnaireServer {
         logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 
-    private static DataSource createDataSource() throws IOException, GeneralSecurityException {
+    private static DataSource createDataSource() throws IOException {
+        String[] keys  = {"URL", "username", "password"};
         FileInputStream fis = new FileInputStream("src/main/resources/properties/config.properties");
         Properties properties = new Properties();
-        properties.load(fis);
+
+        try(fis){
+            properties.load(fis);
+
+            for (String key : keys) {
+                if (!properties.containsKey(key)) {
+                    logger.warn("Properties file missing key: " + key);
+                } else if (properties.getProperty(key).length() == 0) {
+                    logger.warn("Missing value for property: " + key);
+                }
+            }
+
+        }catch (Exception e) {
+            logger.warn("Properties file does not exist - " + e.getMessage());
+        }
 
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setUrl(properties.getProperty("URL"));
         dataSource.setUser(properties.getProperty("username"));
         dataSource.setPassword(properties.getProperty("password"));
+        logger.info("Using database {}", dataSource.getUrl());
 
         Flyway.configure().dataSource(dataSource).load();
+        logger.info("Started on http://localhost:{}/index.html", 1962);
 
         return dataSource;
+
     }
 }

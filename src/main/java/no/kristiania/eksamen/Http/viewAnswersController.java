@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class viewAnswersController implements HttpController {
 
-    private AnswerDao answerDao;
+    private final AnswerDao answerDao;
 
     public viewAnswersController (AnswerDao answerDao) {
         this.answerDao = answerDao;
@@ -22,7 +22,7 @@ public class viewAnswersController implements HttpController {
         StringBuilder response = new StringBuilder();
         for (Answer answer :
                 answerDao.listAllAnswers()) {
-            response.append(answer.getName()).append(": ").append(answer.getAnswer()).append("<br>");
+            response.append(Answer.getName()).append(": ").append(Answer.getAnswer()).append("<br>");
         }
 
         return new HttpMessage("HTTP/1.1 200 OK", response.toString());

@@ -11,50 +11,61 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class QuestionDao {
-    private static DataSource dataSource;
+public class QuestionDao extends AbstractDao<Question> {
 
-    public QuestionDao (DataSource dataSource) {
-        this.dataSource = dataSource;
+    public QuestionDao(DataSource dataSource) {
+        super(dataSource);
     }
 
-    public static void answer(Question question) throws SQLException {
+    @Override
+    protected Question mapRow(ResultSet rs) throws SQLException {
+        Question question = new Question();
+
+        question.setId(rs.getLong("question_id"));
+        question.setTitle(rs.getString("question_Title"));
+        question.setName(rs.getString("question_Name"));
+
+        return question;
+    }
+
+
+
+    public static void save(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into answers (questionName, questionAnswer) values (?, ?)"
+                    "insert into questions (question_title, question_name) values (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
             )) {
-                statement.setString(1, question.getName());
-                statement.setString(2, question.getAnswer());
+                statement.setString(1, question.getTitle());
+                statement.setString(2, question.getName());
                 statement.executeUpdate();
-            }
-        }
-    }
 
-    public Question retrieve (String questionName) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from questions where questionname = ?"
-            )) {
-                statement.setString(1, questionName);
-                try (ResultSet rs = statement.executeQuery()) {
-                    rs.next();
-
-                    return mapFromResultSet(rs);
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    generatedKeys.next();
+                    question.setId(generatedKeys.getLong("question_id"));
                 }
             }
         }
     }
 
-    public static void save(Question question) throws SQLException {
+    public Question retrieve(long id) throws SQLException {
+        return super.retrieve(id, "SELECT * FROM questions WHERE question_id = ?");
+    }
+
+    public static void answer (Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into questions (questiontitle, questionname) values (?, ?)"
-            )) {
-                statement.setString(1, question.getTitle());
-                statement.setString(2, question.getName());
-
+                    "insert into answers (question_name, question_answer) values (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS)) {
+                statement.setString(1, question.getName());
+                statement.setString(2, question.getAnswer());
                 statement.executeUpdate();
+                {
+                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                        generatedKeys.next();
+                        question.setId(generatedKeys.getInt("id"));
+                    }
+                }
             }
         }
     }
@@ -65,8 +76,8 @@ public class QuestionDao {
                     "select * from questions")) {
                 try (ResultSet rs = statement.executeQuery()) {
                     ArrayList<Question> res = new ArrayList<>();
-                    while (rs.next()){
-                        res.add(readFromResultSet(rs));
+                    while (rs.next()) {
+                        res.add(mapRow(rs));
                     }
                     return res;
                 }
@@ -78,14 +89,14 @@ public class QuestionDao {
     public List<Question> listByTitle() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from questions where questiontitle = ?"
+                    "select * from questions where question_title = ?"
             )) {
                 statement.setString(1, "questionTitle");
                 try (ResultSet rs = statement.executeQuery()) {
                     ArrayList<Question> questions = new ArrayList<>();
 
                     while (rs.next()) {
-                        questions.add(mapFromResultSet(rs));
+                        questions.add(mapRow(rs));
                     }
                     return questions;
                 }
@@ -93,44 +104,5 @@ public class QuestionDao {
         }
     }
 
-    private Question readFromResultSet(ResultSet rs) throws SQLException {
-        Question question = new Question();
 
-        question.setTitle(rs.getString("questionTitle"));
-        question.setName(rs.getString("questionName"));
-
-        return question;
-    }
-
-    private Question mapFromResultSet(ResultSet rs) throws SQLException {
-        Question question = new Question();
-
-        question.setTitle(rs.getString("questionTitle"));
-        question.setName(rs.getString("questionName"));
-
-        return question;
-    }
-
-    private Question readSelectionsFromResultSet(ResultSet rs) throws SQLException {
-        Question question = new Question();
-
-        question.setName(rs.getString("questionName"));
-
-        return question;
-    }
-
-    public static DataSource createDataSource() throws IOException {
-        FileInputStream fis = new FileInputStream("src/main/resources/properties/config.properties");
-        Properties properties = new Properties();
-        properties.load(fis);
-
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(properties.getProperty("URL"));
-        dataSource.setUser(properties.getProperty("username"));
-        dataSource.setPassword(properties.getProperty("password"));
-
-        Flyway.configure().dataSource(dataSource).load();
-
-        return dataSource;
-    }
 }
