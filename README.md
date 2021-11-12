@@ -1,6 +1,6 @@
 # PGR203 Avansert Java eksamen
 
-[![HttpServer](https://github.com/kristiania-pgr203-2021/pgr203-innlevering-3-eskil4152/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr203-2021/pgr203-innlevering-3-eskil4152/actions/workflows/maven.yml/badge.svg)
+[![HttpServer](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)
 
 ## Beskriv hvordan programmet skal testes:
 
