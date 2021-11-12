@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Question> {
+public class QuestionDao extends AbstractDao<Question> {
 
     public QuestionDao(DataSource dataSource) {
         super(dataSource);
@@ -20,8 +20,6 @@ public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Que
 
         return question;
     }
-
-
 
     public static void save(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {

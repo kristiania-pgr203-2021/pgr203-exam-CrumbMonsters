@@ -46,23 +46,6 @@ public class QuestionDaoTest {
                 .contains(question.getName(), question2.getName());
     }
 
-    @Test
-    void questionsShouldNotBeIdentical() throws SQLException {
-        Question question = new Question();
-        question.setTitle("Food");
-        question.setName("Example");
-        dao.save(question);
-
-        Question question1 = new Question();
-        question1.setTitle("Car");
-        question1.setName("Example");
-        dao.save(question1);
-
-        assertThat(dao.listAll())
-                .extracting(Question::getName)
-                .containsOnlyOnce("Example");
-    }
-
     private Question exampleQuestion() {
         Question question = new Question();
         question.setTitle("Food");
