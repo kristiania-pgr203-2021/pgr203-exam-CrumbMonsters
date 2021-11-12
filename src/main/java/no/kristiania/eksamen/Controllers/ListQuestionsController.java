@@ -19,7 +19,7 @@ public class ListQuestionsController implements HttpController {
     public HttpMessage handle(HttpMessage request) throws SQLException {
         String response = "";
         for (Question question :
-                questionDao.listAll()) {
+                questionDao.listAllQues()) {
             response += "<p>" + question.getTitle() + ", " + question.getName() + "</p>";
         }
         response += "<br><br>";

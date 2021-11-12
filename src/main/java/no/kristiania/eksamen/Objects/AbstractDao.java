@@ -50,7 +50,6 @@ public abstract class AbstractDao<T> {
         }
     }
 
-
     protected abstract T resMap(ResultSet rs) throws SQLException;
 
 }

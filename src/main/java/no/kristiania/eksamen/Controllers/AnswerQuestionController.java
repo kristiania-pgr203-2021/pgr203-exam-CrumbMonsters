@@ -30,9 +30,9 @@ public class AnswerQuestionController implements HttpController {
         String name = queryMap.get("questionName");
         String nameToString = "";
 
-        for (int i = 0; i < questionDao.listAll().size(); i++) {
+        for (int i = 0; i < questionDao.listAllQues().size(); i++) {
             if (i == Integer.parseInt(name)) {
-                nameToString = String.valueOf(questionDao.listAll().get(i));
+                nameToString = String.valueOf(questionDao.listAllQues().get(i));
 
             }
         }
