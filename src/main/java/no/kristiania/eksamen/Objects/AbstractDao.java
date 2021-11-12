@@ -39,7 +39,6 @@ public abstract class AbstractDao<T> {
 
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
                 try (ResultSet rs = statement.executeQuery()) {
                     List<T> list = new ArrayList<>();
                     while (rs.next()) {
