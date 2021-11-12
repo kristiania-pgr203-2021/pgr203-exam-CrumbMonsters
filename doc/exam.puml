@@ -26,14 +26,18 @@ break
 participant api.answer
 participant answer
 participant answer.setname
+participant questionSelectController
 participant answer.setanswer
 participant answerDao.answer
 participant answerTable
 
 listQuestionHTML -> api.answer
 api.answer -> answer
-answer -> listQuestionHTML
-listQuestionHTML -> answer.setname
+answer -> questionSelectController
+questionSelectController -> questionDao.listAll
+questionDao.listAll -> questionTable
+questionTable -> questionSelectController
+questionSelectController -> answer.setname
 answer.setname -> answer
 answer -> answer.setanswer
 answer <- answer.setanswer
