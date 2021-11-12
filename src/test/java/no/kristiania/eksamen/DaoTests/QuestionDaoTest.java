@@ -36,9 +36,9 @@ public class QuestionDaoTest {
 
     @Test
     void shouldListAllQuestions() throws SQLException {
-        Question question = exampleQuestion();
+        Question question = exampleQuestion2();
         dao.save(question);
-        Question question2 = exampleQuestion2();
+        Question question2 = exampleQuestion3();
         dao.save(question2);
 
         assertThat(dao.listAll())

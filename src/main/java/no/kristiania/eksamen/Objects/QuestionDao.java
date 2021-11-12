@@ -5,14 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Question> {
+public class QuestionDao extends AbstractDao<Question> {
 
     public QuestionDao(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
-    protected Question mapRow(ResultSet rs) throws SQLException {
+    protected Question resMap(ResultSet rs) throws SQLException {
         Question question = new Question();
 
         question.setTitle(rs.getString("question_title"));
@@ -20,8 +20,6 @@ public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Que
 
         return question;
     }
-
-
 
     public static void save(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
@@ -46,7 +44,7 @@ public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Que
                 try (ResultSet rs = statement.executeQuery()) {
                     ArrayList<Question> res = new ArrayList<>();
                     while (rs.next()) {
-                        res.add(mapRow(rs));
+                        res.add(resMap(rs));
                     }
                     return res;
                 }
