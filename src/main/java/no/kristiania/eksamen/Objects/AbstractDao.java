@@ -26,7 +26,7 @@ public abstract class AbstractDao<T> {
 
                 try (ResultSet rs = statement.executeQuery()) {
                     if (rs.next()) {
-                        return mapRow(rs);
+                        return resMap(rs);
                     } else {
                         return null;
                     }
@@ -35,16 +35,15 @@ public abstract class AbstractDao<T> {
         }
     }
 
-    protected List<T> retrieveList(int id, String sql) throws SQLException {
+    protected List<T> listAll (String sql) throws SQLException {
 
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, id);
 
                 try (ResultSet rs = statement.executeQuery()) {
                     List<T> list = new ArrayList<>();
                     while (rs.next()) {
-                        list.add(mapRow(rs));
+                        list.add(resMap(rs));
                     }
                     return list;
                 }
@@ -52,18 +51,7 @@ public abstract class AbstractDao<T> {
         }
     }
 
-    public void update(String sql, int id) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, id);
-                statement.executeUpdate();
 
-            } catch (Exception e) {
-                logger.error("When updating task {} - {}", id, e.getMessage());
-            }
-        }
-    }
-
-    protected abstract T mapRow(ResultSet rs) throws SQLException;
+    protected abstract T resMap(ResultSet rs) throws SQLException;
 
 }
