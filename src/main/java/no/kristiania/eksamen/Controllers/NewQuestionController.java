@@ -28,11 +28,11 @@ public class NewQuestionController implements HttpController {
         question.setTitle(URLDecoder.decode(queryMap.get("question_title"), StandardCharsets.UTF_8.name()));
         question.setName(URLDecoder.decode(queryMap.get("question_name"), StandardCharsets.UTF_8.name()));
 
-        questionDao.save(question);
+        QuestionDao.save(question);
 
         String response = "<a href='/index.html'>Click to go to index</a><br>" +
-                "<a href='/newQuestion.html'>Click to add more questions</a>" +
-                "<a href='/listQuestions.html'>Click to answer questions</a>";
+                "<a href='/newQuestion.html'>Click to add more questions</a><br>" +
+                "<a href='/listQuestions.html'>Click to answer questions</a><br>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }
 }
