@@ -3,6 +3,7 @@ package no.kristiania.eksamen.Http;
 import no.kristiania.eksamen.Controllers.*;
 import no.kristiania.eksamen.Objects.QuestionDao;
 import no.kristiania.eksamen.Objects.AnswerDao;
+import no.kristiania.eksamen.Objects.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ public class QuestionnaireServer {
         DataSource dataSource = Datasource.createDataSource();
         QuestionDao questionDao = new QuestionDao (dataSource);
         AnswerDao answerDao = new AnswerDao(dataSource);
+        UserDao userDao = new UserDao(dataSource);
         HttpServer httpServer = new HttpServer(1962);
 
         httpServer.addController("/api/listQuestions", new ListQuestionsController(questionDao));
@@ -25,8 +27,9 @@ public class QuestionnaireServer {
         httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
         httpServer.addController("/api/viewAnswers", new viewAnswersController(answerDao));
         httpServer.addController("/api/alterQuestion", new AlterQuestionController(questionDao));
+        httpServer.addController("/api/cookieAPI", new CookieCrumbController(userDao));
 
-        logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
+        logger.info("Starting http://localhost:{}/preIndex.html", httpServer.getPort());
     }
 
 }

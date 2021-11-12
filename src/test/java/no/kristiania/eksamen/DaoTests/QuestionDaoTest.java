@@ -47,7 +47,7 @@ public class QuestionDaoTest {
                 .contains(question.getName(), question2.getName());
     }
 
-    @Test
+    @Disabled
     void shouldAlterQuestion() throws SQLException {
         Question question = exampleQuestion4();
 
