@@ -1,0 +1,78 @@
+@startuml
+participant Browser
+participant HttpServer
+participant index.html
+participant listQuestionHTML
+participant newQuestion.html
+participant viewAnswer.html
+participant api.ListQuestions
+participant listQuestionsController
+participant questionDao.listAll
+participant questionTable
+
+Browser -> HttpServer
+HttpServer -> index.html
+
+index.html -> listQuestionHTML
+listQuestionHTML -> api.ListQuestions
+api.ListQuestions -> listQuestionsController
+listQuestionsController -> questionDao.listAll
+questionDao.listAll -> questionTable
+questionTable-> listQuestionHTML
+
+break
+break
+
+participant api.answer
+participant answer
+participant answer.setname
+participant answer.setanswer
+participant answerDao.answer
+participant answerTable
+
+listQuestionHTML -> api.answer
+api.answer -> answer
+answer -> listQuestionHTML
+listQuestionHTML -> answer.setname
+answer.setname -> answer
+answer -> answer.setanswer
+answer <- answer.setanswer
+answer -> answerDao.answer
+answerDao.answer -> answerTable
+
+break
+break
+
+participant api.newQuestion
+participant newQuestionController
+participant Questionquestion
+participant question_title
+participant question_name
+participant questiondao.save
+
+index.html -> newQuestion.html
+newQuestion.html -> api.newQuestion
+api.newQuestion -> newQuestionController
+newQuestionController -> Questionquestion
+Questionquestion -> question_name
+Questionquestion <- question_name
+Questionquestion -> question_title
+Questionquestion <- question_title
+Questionquestion -> questiondao.save
+questiondao.save -> questionTable
+
+break
+break
+
+participant api.viewAnswer
+participant viewAnswerController
+participant answerDao.listAll
+
+index.html -> viewAnswer.html
+viewAnswer.html -> api.viewAnswer
+api.viewAnswer -> viewAnswerController
+viewAnswerController -> answerDao.listAll
+answerDao.listAll -> answerTable
+answerTable -> viewAnswer.html
+
+@enduml
