@@ -2,3 +2,4 @@
 target/
 *.iml
 /config.properties
+/src/main/resources/properties/config.properties

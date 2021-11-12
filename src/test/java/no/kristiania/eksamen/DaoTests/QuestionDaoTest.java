@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import static no.kristiania.eksamen.DaoTests.TestData.pickOne;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QuestionDaoTest {
@@ -17,8 +18,8 @@ public class QuestionDaoTest {
 
     @Test
     void shouldRetrieveQuestion() throws SQLException {
-        Question question = exampleQuestion3();
-        dao.save(question);
+        Question question = exampleQuestion();
+        dao.saveForTest(question);
         assertThat(dao.retrieve(question.getName()))
                 .usingRecursiveComparison()
                 .isEqualTo(question);
@@ -29,7 +30,7 @@ public class QuestionDaoTest {
         Question question = new Question();
         question.setTitle("Personal");
         question.setName(pickOne("What is your first name?", "What is your last name?", "When is your birthday?"));
-        dao.save(question);
+        dao.saveForTest(question);
 
         assertEquals(question.getTitle(), "Personal");
     }
@@ -37,13 +38,29 @@ public class QuestionDaoTest {
     @Test
     void shouldListAllQuestions() throws SQLException {
         Question question = exampleQuestion2();
-        dao.save(question);
+        dao.saveForTest(question);
         Question question2 = exampleQuestion3();
-        dao.save(question2);
+        dao.saveForTest(question2);
 
         assertThat(dao.listAll())
                 .extracting(Question::getName)
                 .contains(question.getName(), question2.getName());
+    }
+
+    @Test
+    void shouldAlterQuestion() throws SQLException {
+        Question question = exampleQuestion4();
+
+        question.setNewName("Blikeng");
+        question.getName();
+        question.setNewTitle("Eskil");
+        question.getTitle();
+        dao.alter(question);
+
+        assertAll(
+                () -> assertEquals(question.getName(), "Blikeng"),
+                () -> assertEquals(question.getTitle(), "Eskil")
+        );
     }
 
     private Question exampleQuestion() {
@@ -66,6 +83,14 @@ public class QuestionDaoTest {
         Question question = new Question();
         question.setTitle("Food");
         question.setName("Food is good");
+
+        return question;
+    }
+
+    private Question exampleQuestion4() {
+        Question question = new Question();
+        question.setTitle("Lars");
+        question.setName("Bjornbak");
 
         return question;
     }
