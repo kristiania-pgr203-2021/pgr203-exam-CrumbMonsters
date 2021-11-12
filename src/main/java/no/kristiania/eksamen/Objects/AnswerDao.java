@@ -5,27 +5,24 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDao {
+public class AnswerDao extends AbstractDao<Answer>{
 
-    private static DataSource dataSource;
-
-    public AnswerDao (DataSource dataSource) {
-        this.dataSource = dataSource;
+    public AnswerDao(DataSource dataSource) {
+        super(dataSource);
     }
 
-    public List<Answer> listAllAnswers() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(
-                    "select * from answers")) {
-                try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<Answer> res = new ArrayList<>();
-                    while (rs.next()){
-                        res.add(readFromResultSet(rs));
-                    }
-                    return res;
-                }
-            }
-        }
+    @Override
+    protected Answer resMap(ResultSet rs) throws SQLException {
+        Answer answer = new Answer();
+
+        answer.setName(rs.getString("question_answered"));
+        answer.setAnswer(rs.getString("question_answer"));
+
+        return answer;
+    }
+
+    public List<Answer> listAllAns() throws SQLException {
+        return super.listAll("SELECT * FROM answers");
     }
 
     public static void answer(Answer answer) throws SQLException {
@@ -44,14 +41,5 @@ public class AnswerDao {
                 }
             }
         }
-    }
-
-    private Answer readFromResultSet(ResultSet rs) throws SQLException {
-        Answer answer = new Answer();
-
-        answer.setName(rs.getString("question_answered"));
-        answer.setAnswer(rs.getString("question_answer"));
-
-        return answer;
     }
 }

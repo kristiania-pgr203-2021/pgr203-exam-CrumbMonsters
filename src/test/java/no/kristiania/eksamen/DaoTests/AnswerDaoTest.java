@@ -2,12 +2,9 @@ package no.kristiania.eksamen.DaoTests;
 
 import no.kristiania.eksamen.Objects.Answer;
 import no.kristiania.eksamen.Objects.AnswerDao;
-import no.kristiania.eksamen.Objects.Question;
-import no.kristiania.eksamen.Objects.QuestionDao;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.Random;
 
 import static no.kristiania.eksamen.DaoTests.TestData.pickOne;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +28,7 @@ public class AnswerDaoTest {
         Answer answer2 = exampleAnswer2();
         dao.answer(answer2);
 
-        assertThat(dao.listAllAnswers())
+        assertThat(dao.listAllAns())
                 .extracting(Answer::getName)
                 .contains(answer.getName(), answer2.getName());
     }
