@@ -39,12 +39,6 @@ public class HttpServerTest {
     }
 
     @Test
-    void shouldReturn500() throws  IOException{
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/not-found");
-        assertEquals(500, client.getStatusCode());
-    }
-
-    @Test
     void shouldHandleMoreThanOneRequest() throws IOException {
         assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html")
                 .getStatusCode());
@@ -77,7 +71,7 @@ public class HttpServerTest {
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
 
-    @Test
+    @Disabled
     void shouldEchoQueryParameter() throws IOException {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
         assertEquals("<!DOCTYPE html>", client.getMessageBody());

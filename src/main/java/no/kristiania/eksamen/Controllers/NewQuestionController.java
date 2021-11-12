@@ -31,7 +31,7 @@ public class NewQuestionController implements HttpController {
         questionDao.save(question);
 
         String response = "<a href='/index.html'>Click to go to index</a><br>" +
-                "<a href='/newQuestion.html'>Click to add more questions</a>" +
+                "<a href='/newQuestion.html'>Click to add more questions<br></a>" +
                 "<a href='/listQuestions.html'>Click to answer questions</a>";
         return new HttpMessage("HTTP/1.1 200 OK", response);
     }

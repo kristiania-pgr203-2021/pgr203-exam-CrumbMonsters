@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static no.kristiania.eksamen.DaoTests.TestData.pickOne;
 import static org.assertj.core.api.Assertions.assertThat;
 public class QuestionDaoTest {
 
@@ -21,7 +22,15 @@ public class QuestionDaoTest {
                 .isEqualTo(question);
     }
 
-    @Disabled
+    @Test
+    void shouldSaveQuestion() throws SQLException {
+        Question question = exampleQuestion();
+        question.setTitle("Personal");
+        question.setName(pickOne("What is your first name?", "What is your last name?", "When is your birthday?"));
+        dao.save(question);
+    }
+
+    @Test
     void shouldListAllQuestions() throws SQLException {
         Question question = exampleQuestion2();
         dao.save(question);
