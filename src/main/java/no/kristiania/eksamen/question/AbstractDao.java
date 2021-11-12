@@ -18,11 +18,11 @@ public abstract class AbstractDao<T> {
         this.dataSource = dataSource;
     }
 
-    protected T retrieve(long id, String sql) throws SQLException {
+    protected T retrieve(String name, String sql) throws SQLException {
 
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, id);
+                statement.setString(1, name);
 
                 try (ResultSet rs = statement.executeQuery()) {
                     if (rs.next()) {

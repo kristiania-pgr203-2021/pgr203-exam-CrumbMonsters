@@ -15,7 +15,6 @@ public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Que
     protected Question mapRow(ResultSet rs) throws SQLException {
         Question question = new Question();
 
-        question.setId(rs.getLong("question_id"));
         question.setTitle(rs.getString("question_title"));
         question.setName(rs.getString("question_name"));
 
@@ -27,23 +26,17 @@ public class QuestionDao extends no.kristiania.eksamen.question.AbstractDao <Que
     public static void save(Question question) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into questions (question_title, question_name) values (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
+                    "insert into questions (question_title, question_name) values (?, ?) ON CONFLICT DO NOTHING"
             )) {
                 statement.setString(1, question.getTitle());
                 statement.setString(2, question.getName());
                 statement.executeUpdate();
-
-                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                    generatedKeys.next();
-                    question.setId(generatedKeys.getLong("question_id"));
-                }
             }
         }
     }
 
-    public Question retrieve(long id) throws SQLException {
-        return super.retrieve(id, "SELECT * FROM questions WHERE question_id = ?");
+    public Question retrieve(String name) throws SQLException {
+        return super.retrieve(name, "SELECT * FROM questions WHERE question_name = ?");
     }
 
     public List<Question> listAll() throws SQLException {

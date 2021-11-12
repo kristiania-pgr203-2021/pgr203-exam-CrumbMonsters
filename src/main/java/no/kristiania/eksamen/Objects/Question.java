@@ -7,7 +7,6 @@ public class Question {
     private long id;
     private String answer;
 
-
     public void setId(long id) {
         this.id = id;
     }
@@ -23,7 +22,6 @@ public class Question {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-
 
     public void setTitle(String title) {
         this.title = title;

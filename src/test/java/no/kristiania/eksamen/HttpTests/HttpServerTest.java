@@ -56,8 +56,6 @@ public class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/test-file.txt");
         assertEquals(fileContent, client.getMessageBody());
         assertEquals("text/plain", client.getHeader("Content-Type"));
-
-
     }
 
     @Test
@@ -83,15 +81,5 @@ public class HttpServerTest {
                 getStatusCode());
         assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html").
                 getStatusCode());
-    }
-
-    @Disabled
-    void shouldReturnCategoriesFromServer() {
-        assertEquals(1, 1);
-    }
-
-    @Disabled
-    void shouldCreateNewProduct() {
-        assertEquals(1, 1);
     }
 }

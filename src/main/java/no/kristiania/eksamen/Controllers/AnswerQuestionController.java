@@ -16,6 +16,7 @@ import java.util.Map;
 public class AnswerQuestionController implements HttpController {
     private final AnswerDao answerDao;
     private final QuestionDao questionDao;
+
     public AnswerQuestionController (AnswerDao answerDao, QuestionDao questionDao) {
         this.answerDao = answerDao;
         this.questionDao = questionDao;

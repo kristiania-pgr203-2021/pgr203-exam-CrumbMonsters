@@ -9,37 +9,58 @@ import java.sql.SQLException;
 
 import static no.kristiania.eksamen.DaoTests.TestData.pickOne;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class QuestionDaoTest {
 
     private final QuestionDao dao = new QuestionDao(TestData.testDataSource());
 
     @Test
     void shouldRetrieveQuestion() throws SQLException {
-        Question question = exampleQuestion();
+        Question question = exampleQuestion3();
         dao.save(question);
-        assertThat(dao.retrieve(question.getId()))
+        assertThat(dao.retrieve(question.getName()))
                 .usingRecursiveComparison()
                 .isEqualTo(question);
     }
 
     @Test
     void shouldSaveQuestion() throws SQLException {
-        Question question = exampleQuestion();
+        Question question = new Question();
         question.setTitle("Personal");
         question.setName(pickOne("What is your first name?", "What is your last name?", "When is your birthday?"));
         dao.save(question);
+
+        assertEquals(question.getTitle(), "Personal");
     }
 
     @Test
     void shouldListAllQuestions() throws SQLException {
-        Question question = exampleQuestion2();
+        Question question = exampleQuestion();
         dao.save(question);
-        Question question2 = exampleQuestion3();
+        Question question2 = exampleQuestion2();
         dao.save(question2);
 
         assertThat(dao.listAll())
                 .extracting(Question::getName)
                 .contains(question.getName(), question2.getName());
+    }
+
+    @Test
+    void questionsShouldNotBeIdentical() throws SQLException {
+        Question question = new Question();
+        question.setTitle("Food");
+        question.setName("Example");
+        dao.save(question);
+
+        Question question1 = new Question();
+        question1.setTitle("Car");
+        question1.setName("Example");
+        dao.save(question1);
+
+        assertThat(dao.listAll())
+                .extracting(Question::getName)
+                .containsOnlyOnce("Example");
     }
 
     private Question exampleQuestion() {
@@ -61,7 +82,7 @@ public class QuestionDaoTest {
     private Question exampleQuestion3() {
         Question question = new Question();
         question.setTitle("Food");
-        question.setName("What is your favorite soup?");
+        question.setName("Food is good");
 
         return question;
     }
