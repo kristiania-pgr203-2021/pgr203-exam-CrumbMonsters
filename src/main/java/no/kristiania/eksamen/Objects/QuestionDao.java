@@ -51,4 +51,20 @@ public class QuestionDao extends AbstractDao<Question> {
             }
         }
     }
+
+    public static void alter(Question question) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    //"insert into questions (question_title, question_name) values (?, ?)"
+                    "update questions set question_name = (?) where question_name = (?);" +
+                            "update questions set question_title = (?) where question_name = (?)"
+            )) {
+                statement.setString(1, question.getNewName());
+                statement.setString(2, question.getName());
+                statement.setString(3, question.getNewTitle());
+                statement.setString(4, question.getTitle());
+                statement.executeUpdate();
+            }
+        }
+    }
 }
