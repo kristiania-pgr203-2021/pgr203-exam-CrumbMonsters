@@ -47,7 +47,7 @@ public class QuestionDaoTest {
                 .contains(question.getName(), question2.getName());
     }
 
-    @Disabled
+    @Test
     void shouldAlterQuestion() throws SQLException {
         Question question = exampleQuestion4();
 
@@ -58,8 +58,8 @@ public class QuestionDaoTest {
         dao.alter(question);
 
         assertAll(
-                () -> assertEquals(question.getName(), "Blikeng"),
-                () -> assertEquals(question.getTitle(), "Eskil")
+                () -> assertEquals(question.getNewName(), "Blikeng"),
+                () -> assertEquals(question.getNewTitle(), "Eskil")
         );
     }
 
