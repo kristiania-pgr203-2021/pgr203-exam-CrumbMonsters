@@ -1,6 +1,5 @@
 package no.kristiania.eksamen.Controllers;
 
-import no.kristiania.eksamen.Http.HttpController;
 import no.kristiania.eksamen.Http.HttpMessage;
 import no.kristiania.eksamen.Objects.UserDao;
 import no.kristiania.eksamen.Objects.Username;

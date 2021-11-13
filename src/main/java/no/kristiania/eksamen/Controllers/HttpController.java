@@ -1,4 +1,6 @@
-package no.kristiania.eksamen.Http;
+package no.kristiania.eksamen.Controllers;
+
+import no.kristiania.eksamen.Http.HttpMessage;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -3,8 +3,6 @@ participant Browser
 participant HttpServer
 participant index.html
 participant listQuestionHTML
-participant newQuestion.html
-participant viewAnswer.html
 participant api.ListQuestions
 participant listQuestionsController
 participant questionDao.listAll
@@ -47,6 +45,7 @@ answerDao.answer -> answerTable
 break
 break
 
+participant newQuestion.html
 participant api.newQuestion
 participant newQuestionController
 participant Questionquestion
@@ -68,6 +67,7 @@ questiondao.save -> questionTable
 break
 break
 
+participant viewAnswer.html
 participant api.viewAnswer
 participant viewAnswerController
 participant answerDao.listAll
