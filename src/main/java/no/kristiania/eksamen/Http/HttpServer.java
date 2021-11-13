@@ -1,9 +1,5 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.Controllers.HttpController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,36 +11,41 @@ import java.sql.SQLException;
 public class HttpServer {
 
     private final ServerSocket serverSocket;
-    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
 
-        new Thread(() -> {
-            while (true) {
-                try (Socket clientSocket = serverSocket.accept()) {
-                    handleClient(clientSocket);
-                } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        new Thread(this::clientHandler).start();
     }
 
-    private void handleClient(Socket clientSocket) throws IOException, SQLException {
+    private void clientHandler() {
+        try {
+            while (true){
+                handleClient();
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleClient() throws IOException, SQLException {
+        Socket clientSocket = serverSocket.accept();
+
         HttpMessage httpMessage = new HttpMessage(clientSocket);
-        String requestLine = httpMessage.retrieveStartLine();
+        String[] requestLine = httpMessage.startLine.split(" ");
+        String requestTarget = requestLine[1];
 
-        logger.info(requestLine, clientSocket.getPort());
-
-        String requestTarget = requestLine.split(" ")[1];
         int questionPos = requestTarget.indexOf('?');
-        String fileTarget = questionPos != -1 ? requestTarget.substring(0, questionPos) : requestTarget;
+        String fileTarget;
+        if (questionPos != -1) {
+            fileTarget = requestTarget.substring(0, questionPos);
+        } else {
+            fileTarget = requestTarget;
+        }
 
-        HttpController controller = QuestionnaireServer.controllers.get(fileTarget);
-
-        if (controller != null) {
-            controller.handle(httpMessage);
+        if (QuestionnaireServer.controllers.containsKey(fileTarget)) {
+            HttpMessage response = QuestionnaireServer.controllers.get(fileTarget).handle(httpMessage);
+            response.write(clientSocket);
         } else {
             InputStream fileResource = getClass().getResourceAsStream(fileTarget);
             if (fileResource != null) {
@@ -73,7 +74,7 @@ public class HttpServer {
         }
     }
 
-    private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {
+    private void writeOkResponse (Socket clientSocket, String responseText, String contentType) throws IOException {
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Length: " + responseText.length() + "\r\n" +
                 "Content-Type: " + contentType + "\r\n" +
