@@ -1,7 +1,8 @@
 package no.kristiania.eksamen.HttpTests;
 
-import no.kristiania.eksamen.Http.HttpServer;
 import no.kristiania.eksamen.Http.HttpClient;
+import no.kristiania.eksamen.Http.HttpServer;
+import no.kristiania.eksamen.Http.QuestionnaireServer;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpServerTest {
@@ -34,7 +34,7 @@ public class HttpServerTest {
 
     @Test
     void shouldReturn200() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/preIndex.html");
         assertEquals(200, client.getStatusCode());
     }
 

@@ -62,7 +62,7 @@ public class QuestionDao extends AbstractDao<Question> {
                 statement.setString(1, question.getNewName());
                 statement.setString(2, question.getName());
                 statement.setString(3, question.getNewTitle());
-                statement.setString(4, question.getTitle());
+                statement.setString(4, question.getNewName());
                 statement.executeUpdate();
             }
         }
