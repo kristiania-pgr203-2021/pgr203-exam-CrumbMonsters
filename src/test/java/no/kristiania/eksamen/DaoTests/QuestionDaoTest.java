@@ -42,7 +42,7 @@ public class QuestionDaoTest {
         Question question2 = exampleQuestion3();
         dao.saveForTest(question2);
 
-        assertThat(dao.listAll())
+        assertThat(dao.listAllQues())
                 .extracting(Question::getName)
                 .contains(question.getName(), question2.getName());
     }

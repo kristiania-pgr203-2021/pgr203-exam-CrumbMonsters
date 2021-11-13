@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Map;
 
 public class QuestionnaireServer {
 
+    public static Map<String, HttpController> controllers;
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     public static void main(String[] args) throws IOException {
@@ -21,13 +23,14 @@ public class QuestionnaireServer {
         UserDao userDao = new UserDao(dataSource);
         HttpServer httpServer = new HttpServer(1962);
 
-        httpServer.addController("/api/listQuestions", new ListQuestionsController(questionDao));
-        httpServer.addController("/api/questionSelect", new questionSelectController(questionDao));
-        httpServer.addController("/api/answer", new AnswerQuestionController(answerDao, questionDao));
-        httpServer.addController("/api/newQuestion", new NewQuestionController(questionDao));
-        httpServer.addController("/api/viewAnswers", new viewAnswersController(answerDao));
-        httpServer.addController("/api/alterQuestion", new AlterQuestionController(questionDao));
-        httpServer.addController("/api/cookieAPI", new CookieCrumbController(userDao));
+        controllers = Map.of("/api/listQuestions", new ListQuestionsController(questionDao),
+                        "/api/questionSelect", new questionSelectController(questionDao),
+                        "/api/answer", new AnswerQuestionController(answerDao, questionDao),
+                        "/api/newQuestion", new NewQuestionController(questionDao),
+                        "/api/viewAnswers", new viewAnswersController(answerDao),
+                        "/api/alterQuestion", new AlterQuestionController(questionDao),
+                        "/api/cookieAPI", new CookieCrumbController(userDao)
+        );
 
         logger.info("Starting http://localhost:{}/preIndex.html", httpServer.getPort());
     }
