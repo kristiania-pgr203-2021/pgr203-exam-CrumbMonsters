@@ -16,7 +16,7 @@ public class UserDao {
     public static void saveUser(Username username) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "insert into cookiecrumbs (username) values (?) ON CONFLICT DO NOTHING",
+                    "insert into cookiecrumbs (username) values (?) on conflict do nothing ",
                     Statement.RETURN_GENERATED_KEYS
             )) {
                 statement.setString(1, username.getName());

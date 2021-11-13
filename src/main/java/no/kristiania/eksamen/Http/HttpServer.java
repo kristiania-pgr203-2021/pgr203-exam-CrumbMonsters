@@ -1,6 +1,6 @@
 package no.kristiania.eksamen.Http;
 
-import no.kristiania.eksamen.Controllers.questionSelectController;
+import no.kristiania.eksamen.Controllers.HttpController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

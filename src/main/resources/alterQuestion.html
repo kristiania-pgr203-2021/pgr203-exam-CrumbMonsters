@@ -8,6 +8,10 @@
 <body>
 <h1>Alter any question</h1>
 
+<div id="questionList"></div>
+
+<br><br>
+
 <form method="POST" action="/api/alterQuestion">
   <p>
   <label>Old text: <select id="question" name="questionName"></select></label>
@@ -22,6 +26,14 @@
 </div>
 </body>
 <script>
+
+  fetch("/api/listQuestions")
+          .then(function(response) {
+            return response.text();
+          }).then(function(text) {
+    document.getElementById("questionList").innerHTML = text;
+  });
+
   fetch("/api/questionSelect")
           .then(function(response) {
             return response.text();
