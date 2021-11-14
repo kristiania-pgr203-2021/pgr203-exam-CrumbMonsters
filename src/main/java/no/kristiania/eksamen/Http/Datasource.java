@@ -31,7 +31,7 @@ public class Datasource {
         }
 
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource. setUrl(properties.getProperty("URL"));
+        dataSource.setUrl(properties.getProperty("URL"));
         dataSource.setUser(properties.getProperty("username"));
         dataSource.setPassword(properties.getProperty("password"));
         logger.info("Using database {}", dataSource.getUrl());

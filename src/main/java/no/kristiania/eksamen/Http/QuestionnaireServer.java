@@ -11,9 +11,10 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Map;
 
+import static no.kristiania.eksamen.Objects.AbstractDao.dataSource;
+
 public class QuestionnaireServer {
 
-    private static DataSource dataSource = Datasource.createDataSource();
     private static QuestionDao questionDao = new QuestionDao(dataSource);
     private static AnswerDao answerDao = new AnswerDao(dataSource);
     private static UserDao userDao = new UserDao(dataSource);
