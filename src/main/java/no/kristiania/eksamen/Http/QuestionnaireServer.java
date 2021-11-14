@@ -19,10 +19,10 @@ public class QuestionnaireServer {
     private static UserDao userDao = new UserDao(dataSource);
 
     public static Map<String, HttpController> controllers = Map.of("/api/listQuestions", new ListQuestionsController(questionDao),
-            "/api/questionSelect", new questionSelectController(questionDao),
+            "/api/questionSelect", new QuestionSelectController(questionDao),
             "/api/answer", new AnswerQuestionController(answerDao, questionDao),
             "/api/newQuestion", new NewQuestionController(questionDao),
-            "/api/viewAnswers", new viewAnswersController(answerDao),
+            "/api/viewAnswers", new ViewAnswersController(answerDao),
             "/api/alterQuestion", new AlterQuestionController(questionDao),
             "/api/cookieAPI", new CookieCrumbController(userDao)
     );

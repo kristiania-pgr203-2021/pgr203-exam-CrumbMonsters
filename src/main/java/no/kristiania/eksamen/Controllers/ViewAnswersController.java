@@ -6,11 +6,11 @@ import no.kristiania.eksamen.Objects.AnswerDao;
 
 import java.sql.SQLException;
 
-public class viewAnswersController implements HttpController {
+public class ViewAnswersController implements HttpController {
 
     private AnswerDao answerDao;
 
-    public viewAnswersController (AnswerDao answerDao) {
+    public ViewAnswersController(AnswerDao answerDao) {
         this.answerDao = answerDao;
     }
 
