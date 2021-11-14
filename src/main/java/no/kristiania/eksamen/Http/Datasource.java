@@ -14,10 +14,10 @@ public class Datasource {
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     public static DataSource testDataSource() {
-        JdbcDataSource dataSource = new JdbcDataSource();
-        dataSource.setUrl("jdbc:h2:mem:productdb;DB_CLOSE_DELAY=-1");
-        Flyway.configure().dataSource(dataSource).load().migrate();
-        return dataSource;
+        JdbcDataSource testSource = new JdbcDataSource();
+        testSource.setUrl("jdbc:h2:mem:productdb;DB_CLOSE_DELAY=-1");
+        Flyway.configure().dataSource(testSource).load().migrate();
+        return testSource;
     }
 
     static DataSource createDataSource() {
