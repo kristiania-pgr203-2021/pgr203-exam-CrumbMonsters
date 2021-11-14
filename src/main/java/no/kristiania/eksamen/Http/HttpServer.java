@@ -1,16 +1,20 @@
 package no.kristiania.eksamen.Http;
 
+import no.kristiania.eksamen.Controllers.HttpController;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 
 public class HttpServer {
 
     private final ServerSocket serverSocket;
+    private final HashMap<String, HttpController> controllers = new HashMap<>();
 
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -43,8 +47,8 @@ public class HttpServer {
             fileTarget = requestTarget;
         }
 
-        if (QuestionnaireServer.controllers.containsKey(fileTarget)) {
-            HttpMessage response = QuestionnaireServer.controllers.get(fileTarget).handle(httpMessage);
+        if (controllers.containsKey(fileTarget)) {
+            HttpMessage response = controllers.get(fileTarget).handle(httpMessage);
             response.write(clientSocket);
         } else {
             InputStream fileResource = getClass().getResourceAsStream(fileTarget);
@@ -86,5 +90,9 @@ public class HttpServer {
 
     public int getPort() {
         return serverSocket.getLocalPort();
+    }
+
+    public void addController(String path, HttpController controller) {
+        controllers.put(path, controller);
     }
 }

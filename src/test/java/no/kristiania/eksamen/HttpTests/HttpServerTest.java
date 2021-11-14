@@ -2,8 +2,6 @@ package no.kristiania.eksamen.HttpTests;
 
 import no.kristiania.eksamen.Http.HttpClient;
 import no.kristiania.eksamen.Http.HttpServer;
-import no.kristiania.eksamen.Http.QuestionnaireServer;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,7 +20,7 @@ public class HttpServerTest {
 
     @Test
     void shouldReturn404() throws IOException {
-        HttpClient client = new HttpClient( "localhost", server.getPort(), "/non-existing");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/non-existing");
         assertEquals(404, client.getStatusCode());
     }
 
@@ -67,12 +65,6 @@ public class HttpServerTest {
 
         HttpClient client = new HttpClient("localhost", server.getPort(), "/test-file.html");
         assertEquals("text/html", client.getHeader("Content-Type"));
-    }
-
-    @Disabled
-    void shouldEchoQueryParameter() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
-        assertEquals("<!DOCTYPE html>", client.getMessageBody());
     }
 
     @Test
