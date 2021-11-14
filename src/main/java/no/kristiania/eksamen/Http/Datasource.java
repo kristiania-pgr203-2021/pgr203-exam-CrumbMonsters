@@ -17,14 +17,14 @@ public class Datasource {
         String[] propertyKeys = {"URL", "username", "password"};
         Properties properties = new Properties();
 
-        try (FileReader fileReader = new FileReader("pgr203.properties")) {
+        try (FileReader fileReader = new FileReader("config.properties")) {
             properties.load(fileReader);
 
             for (String key : propertyKeys) {
                 if (!properties.containsKey(key)) {
-                    logger.warn("Key missing from from properties file: " + key);
+                    logger.warn("Key missing from properties file: " + key);
                 } else if (properties.getProperty(key).length() == 0) {
-                    logger.warn("Value missing from key in properties file: " + key);
+                    logger.warn("Values missing from key in properties file: " + key);
                 }
             }
         } catch (Exception e) {
