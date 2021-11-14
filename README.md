@@ -3,8 +3,9 @@
 [![HttpServer](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)
 
 ## Links
-[Github Actions](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml) - 
-[UML](doc/exam.puml)
+[Github Actions, Latest run](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/runs/1459870276) - 
+[UML](doc/exam.puml) - 
+[Classroom link](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152)
 
 
 ## Program beskrivelse
