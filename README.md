@@ -7,6 +7,7 @@
 Dette er et program som skal sette opp en localhost server som skal kunne kobles til gjennom en HTTP klient. Klienten skal kunne sende handlinger til servern og få utlevert forskjellig informasjon avhengig av etterspurt informasjon samt legge til informasjon til databasen på serveren.
 Prosjektet leverer et system som gjør at man kan legge til, svare på og oppdatere spørsmål samt se svar.
 
+
 ## Beskriv hvordan programmet skal testes:
 Prosjektet kan startes på følgende måte.
 
