@@ -1,7 +1,6 @@
 package no.kristiania.eksamen.Controllers;
 
 
-import no.kristiania.eksamen.Http.HttpController;
 import no.kristiania.eksamen.Http.HttpMessage;
 import no.kristiania.eksamen.Objects.Answer;
 import no.kristiania.eksamen.Objects.AnswerDao;
@@ -16,6 +15,7 @@ import java.util.Map;
 public class AnswerQuestionController implements HttpController {
     private final AnswerDao answerDao;
     private final QuestionDao questionDao;
+
     public AnswerQuestionController (AnswerDao answerDao, QuestionDao questionDao) {
         this.answerDao = answerDao;
         this.questionDao = questionDao;
@@ -29,9 +29,9 @@ public class AnswerQuestionController implements HttpController {
         String name = queryMap.get("questionName");
         String nameToString = "";
 
-        for (int i = 0; i < questionDao.listAll().size(); i++) {
+        for (int i = 0; i < questionDao.listAllQues().size(); i++) {
             if (i == Integer.parseInt(name)) {
-                nameToString = String.valueOf(questionDao.listAll().get(i));
+                nameToString = String.valueOf(questionDao.listAllQues().get(i));
 
             }
         }
@@ -45,7 +45,7 @@ public class AnswerQuestionController implements HttpController {
         answerDao.answer(answer);
 
         String response = "<a href='/index.html'>Click to go to index</a><br>" +
-                "<a href='/newQuestion.html'>Click to add more questions</a>" +
+                "<a href='/viewAnswer.html'>Click to view answers</a><br>" +
                 "<a href='/listQuestions.html'>Click to answer more questions</a>";
 
         return new HttpMessage("HTTP/1.1 200 OK", response);

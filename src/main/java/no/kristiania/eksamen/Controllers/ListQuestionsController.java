@@ -2,7 +2,6 @@ package no.kristiania.eksamen.Controllers;
 
 import java.sql.SQLException;
 
-import no.kristiania.eksamen.Http.HttpController;
 import no.kristiania.eksamen.Http.HttpMessage;
 import no.kristiania.eksamen.Objects.Question;
 import no.kristiania.eksamen.Objects.QuestionDao;
@@ -19,7 +18,7 @@ public class ListQuestionsController implements HttpController {
     public HttpMessage handle(HttpMessage request) throws SQLException {
         String response = "";
         for (Question question :
-                questionDao.listAll()) {
+                questionDao.listAllQues()) {
             response += "<p>" + question.getTitle() + ", " + question.getName() + "</p>";
         }
         response += "<br><br>";

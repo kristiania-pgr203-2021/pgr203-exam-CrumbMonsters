@@ -81,4 +81,7 @@ public class HttpMessage {
         socket.getOutputStream().write(response.getBytes());
     }
 
+    public String retrieveStartLine() {
+        return startLine;
+    }
 }

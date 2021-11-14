@@ -1,0 +1,105 @@
+@startuml
+participant Browser
+
+box Java server
+participant HttpServer
+participant controllers
+participant CookieCrumbController
+participant userDao
+participant index.html
+participant listQuestionHTML
+participant api.ListQuestions
+participant listQuestionsController
+participant questionDao.listAll
+end box
+
+database PostgreSQL
+
+Browser -> HttpServer: POST /api/CookieAPI
+HttpServer -> controllers: get("/api/CookieAPI")
+HttpServer <- controllers: CookieCrumbController: response = handle(request)
+CookieCrumbController -> CookieCrumbController: username = new username()
+CookieCrumbController -> CookieCrumbController: username.setName
+CookieCrumbController -> userDao: saveUser(username)
+userDao -> cookiecrumbs_db: INSERT INTO username
+HttpServer <- CookieCrumbController: OK 200
+HttpServer -> HttpServer: response.write(socket)
+Browser <-- HttpServer: HTTP/1.1 200 OK
+
+Browser -> HttpServer:
+HttpServer -> index.html
+index.html -> controllers
+note right of index.html: Reads form parameters from request body and directs browser accordingly depending on requested api.
+
+
+index.html -> controllers: post /api/ requested api
+
+controllers -> listQuestionHTML
+listQuestionHTML -> api.ListQuestions
+api.ListQuestions -> listQuestionsController
+listQuestionsController -> questionDao.listAll
+questionDao.listAll -> questionTable
+questionTable-> listQuestionHTML
+
+break
+break
+
+participant api.answer
+participant answer
+participant answer.setname
+participant questionSelectController
+participant answer.setanswer
+participant answerDao.answer
+participant answerTable
+
+listQuestionHTML -> api.answer
+api.answer -> answer
+answer -> questionSelectController
+questionSelectController -> questionDao.listAll
+questionDao.listAll -> questionTable
+questionTable -> questionSelectController
+questionSelectController -> answer.setname
+answer.setname -> answer
+answer -> answer.setanswer
+answer <- answer.setanswer
+answer -> answerDao.answer
+answerDao.answer -> answerTable
+
+break
+break
+
+participant newQuestion.html
+participant api.newQuestion
+participant newQuestionController
+participant Questionquestion
+participant question_title
+participant question_name
+participant questiondao.save
+
+index.html -> newQuestion.html
+newQuestion.html -> api.newQuestion
+api.newQuestion -> newQuestionController
+newQuestionController -> Questionquestion
+Questionquestion -> question_name
+Questionquestion <- question_name
+Questionquestion -> question_title
+Questionquestion <- question_title
+Questionquestion -> questiondao.save
+questiondao.save -> questionTable
+
+break
+break
+
+participant viewAnswer.html
+participant api.viewAnswer
+participant viewAnswerController
+participant answerDao.listAll
+
+index.html -> viewAnswer.html
+viewAnswer.html -> api.viewAnswer
+api.viewAnswer -> viewAnswerController
+viewAnswerController -> answerDao.listAll
+answerDao.listAll -> answerTable
+answerTable -> viewAnswer.html
+
+@enduml

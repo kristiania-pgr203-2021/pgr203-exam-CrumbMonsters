@@ -1,7 +1,8 @@
 package no.kristiania.eksamen.HttpTests;
 
-import no.kristiania.eksamen.Http.HttpServer;
 import no.kristiania.eksamen.Http.HttpClient;
+import no.kristiania.eksamen.Http.HttpServer;
+import no.kristiania.eksamen.Http.QuestionnaireServer;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpServerTest {
@@ -34,14 +34,8 @@ public class HttpServerTest {
 
     @Test
     void shouldReturn200() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/preIndex.html");
         assertEquals(200, client.getStatusCode());
-    }
-
-    @Test
-    void shouldReturn500() throws  IOException{
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/not-found");
-        assertEquals(500, client.getStatusCode());
     }
 
     @Test
@@ -62,8 +56,6 @@ public class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/test-file.txt");
         assertEquals(fileContent, client.getMessageBody());
         assertEquals("text/plain", client.getHeader("Content-Type"));
-
-
     }
 
     @Test
@@ -77,7 +69,7 @@ public class HttpServerTest {
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
 
-    @Test
+    @Disabled
     void shouldEchoQueryParameter() throws IOException {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/index.html");
         assertEquals("<!DOCTYPE html>", client.getMessageBody());
@@ -89,15 +81,5 @@ public class HttpServerTest {
                 getStatusCode());
         assertEquals(200, new HttpClient("localhost", server.getPort(), "/index.html").
                 getStatusCode());
-    }
-
-    @Disabled
-    void shouldReturnCategoriesFromServer() {
-        assertEquals(1, 1);
-    }
-
-    @Disabled
-    void shouldCreateNewProduct() {
-        assertEquals(1, 1);
     }
 }

@@ -2,7 +2,41 @@
 
 [![HttpServer](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr203-2021/pgr203-exam-eskil4152/actions/workflows/maven.yml/badge.svg)
 
+
+## Program beskrivelse
+Dette er et program som skal sette opp en localhost server som skal kunne kobles til gjennom en HTTP klient. Klienten skal kunne sende handlinger til servern og få utlevert forskjellig informasjon avhengig av etterspurt informasjon samt legge til informasjon til databasen på serveren.
+Prosjektet leverer et system som gjør at man kan legge til, svare på og oppdatere spørsmål samt se svar.
+
+
 ## Beskriv hvordan programmet skal testes:
+Prosjektet kan startes på følgende måte.
+
+1. For å komme i gang starter vi med å kjøre en maven Clean. Dette kan gjøres gjennom Maven baren til høyre, under Lifcycle og så velge clean eller i terminal med "mvn clean". Dette gjøres for å forsikre oss om at rester etter tidlgiere programkjøringer blir borte.
+2. Deretter kjører vi en Maven Package. Dette kan gjøres på samme måte som steg 1, men i stedet for clean velger vi package under Lifecycle og i terminal skriver vi "mvn package".  
+3. Vi bør a få en build success og fått en JAR fil vi kan eksekvere til en egen mappe. MERK: Mappen må ha en properties fil med navn "config.properties" for å fungere. Denne filen er nødvendig for å få tilgang til postgres databasene.
+4. For å få tilgang til postgres databasene må config.properties dermed inneholde følgende verdier:
+   - username = username(Ditt username)
+     password = password(Ditt passord)
+     URL = url(Din url)
+5. Programmet kan nå startes og bør kunne lese verdiene fra config.properties av seg selv. 
+6. Skriv så 'java -jar Java-Eksamen-1.0-SNAPSHOT.jar' i terminalen. Dette skal eksekvere JAR filen og starte serveren. 
+7. For å avslutte programmet må man per nå gå i terminal og trykke control c. Kleint
+## Funkjsoner som kan tests i programmet:
+Vi har en del funksjoner som kan testes i programemt vårt.
+Først har vi "crumbs" funksjonen vår som man kommer til direkte ved tilkobling av klient. Her skriver man inn navn som lagres i databasen. Vi forsøkte å bygge ut denne funksjonen til Cookies, men kom ikke fram til noe vi var fornøyde med. Derav har vi bare noen små crumbs.
+Etter å ha oppgitt navn kommer man videre til index siden vår. 
+    -her kan man gå til alle funksjonalitetene våre, men siden alle funksjonene baserer seg på at det ligger spørsmål i databasen må man først legge til spørsmål før man kan teste resten av funksjonalitetene ordentlig.
+Vi trykker da dermed på "create new question" og kommer til en side der vi kan skrive inn en question title, som har som funksjon å vise hvilke spørsmål som hører sammen, og question name som er spørsmålsteksten. Trykk deretter på submit for å legge spørsmålet ditt til i databasen.
+Etter å ha trykket på submit kan vi velge mellom å legge til flere spørsmål, gå tilbake til index eller vise spørsmålene vi har laget. Hvis du legger til et til vil funksjonaliteten som gjør at man kan endre på enkelte spørsmål uten at det påvirker andre blir synligere.
+Vi går så til å se på spørsmålene vi har laget. Her kan vi velge hvilke spørsmål vi vil svare på gjennom en drop down meny. Vi svarer så på spørmålet og trykker submit.
+Vi kan da velge mellom å legge til flere sprøsmål eller å gå tilbake til index.
+Ved å gå tilbake til index kan vi nå velge å liste ut svarene ved å trykke "view answers" eller "alter questions" for å endre på spørsmålene.
+Ved å trykke på view questions vil få listet ut spørsmålene  sammen med titlene de er linket med.
+Ved å trykke på alter questions kan vi gå inn å endre på spørsmålene som ligger inne i databasen vår. Dette skjer på en liknende måte som når man skal oprette spørsmålet, men vi velger hvilket spørsmål vi ønsker å endre på gjennom en drop down meny som inneholder alle spørsmålene fra databasen.
+
+
+## Programdesign 
+???
 
 ## Korreksjoner av eksamensteksten i Wiseflow:
 
@@ -32,7 +66,7 @@
 ### Koden
 
 * [x] `mvn package` bygger en executable jar-fil
-* [ ] Koden inneholder et godt sett med tester
+* [x] Koden inneholder et godt sett med tester
 * [ ] `java -jar target/...jar` (etter `mvn package`) lar bruker legge til og liste ut data fra databasen via webgrensesnitt
 * [ ] Serveren leser HTML-filer fra JAR-filen slik at den ikke er avhengig av å kjøre i samme directory som kildekoden
 * [x] Programmet leser `dataSource.url`, `dataSource.username` og `dataSource.password` fra `pgr203.properties` for å connecte til databasen
@@ -45,7 +79,7 @@
 * [x] Programmet kan vise spørsmål (påkrevd for D)
 * [ ] Programmet kan legge til alternativ for spørsmål (påkrevd for D)
 * [x] Programmet kan registrere svar på spørsmål (påkrevd for C)
-* [ ] Programmet kan endre tittel og tekst på et spørsmål (påkrevd for B)
+* [x] Programmet kan endre tittel og tekst på et spørsmål (påkrevd for B)
 
 ### Ekstraspørsmål (dere må løse mange/noen av disse for å oppnå A/B)
 

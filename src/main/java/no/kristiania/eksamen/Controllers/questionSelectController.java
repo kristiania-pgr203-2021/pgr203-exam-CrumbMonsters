@@ -1,6 +1,5 @@
 package no.kristiania.eksamen.Controllers;
 
-import no.kristiania.eksamen.Http.HttpController;
 import no.kristiania.eksamen.Http.HttpMessage;
 import no.kristiania.eksamen.Objects.Question;
 import no.kristiania.eksamen.Objects.QuestionDao;
@@ -23,7 +22,7 @@ public class questionSelectController implements HttpController {
         int value = 0;
 
         for (Question question :
-                questionDao.listAll()) {
+                questionDao.listAllQues()) {
             responseText += "<option value=" + (value++) + ">" + question + "</option>";
         }
         return new HttpMessage("HTTP/1.1 200 OK", responseText);

@@ -3,7 +3,7 @@ package no.kristiania.eksamen.Http;
 import java.io.IOException;
 import java.net.Socket;
 
-public class HttpPostClient {
+public class HttpPostClient {/*
     private final HttpMessage httpMessage;
     private final int statusCode;
 
@@ -25,5 +25,5 @@ public class HttpPostClient {
 
     public int getStatusCode() {
         return statusCode;
-    }
+    }*/
 }
