@@ -37,7 +37,7 @@ public class Datasource {
         dataSource.setPassword(properties.getProperty("password"));
         logger.info("Using database {}", dataSource.getUrl());
 
-        Flyway.configure().dataSource(dataSource).load().baseline();
+        Flyway.configure().dataSource(dataSource).load().migrate();
 
         return dataSource;
     }
