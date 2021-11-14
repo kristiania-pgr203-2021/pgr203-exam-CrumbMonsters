@@ -1,6 +1,7 @@
 package no.kristiania.eksamen.Http;
 
 import org.flywaydb.core.Flyway;
+import org.h2.jdbcx.JdbcDataSource;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,14 @@ import java.util.Properties;
 
 public class Datasource {
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
+    public static DataSource testDataSource() {
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setUrl("jdbc:h2:mem:productdb;DB_CLOSE_DELAY=-1");
+        Flyway.configure().dataSource(dataSource).load().migrate();
+        return dataSource;
+    }
+
     static DataSource createDataSource() {
 
         String[] propertyKeys = {"URL", "username", "password"};

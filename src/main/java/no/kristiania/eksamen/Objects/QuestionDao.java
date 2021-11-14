@@ -1,5 +1,7 @@
 package no.kristiania.eksamen.Objects;
 
+import no.kristiania.eksamen.Http.Datasource;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class QuestionDao extends AbstractDao<Question> {
     }
 
     public static void saveForTest(Question question) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
+        try (Connection connection = Datasource.testDataSource().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "insert into questions (question_title, question_name) values (?, ?)"
             )) {
