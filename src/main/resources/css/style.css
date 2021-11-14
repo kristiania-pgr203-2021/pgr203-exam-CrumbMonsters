@@ -1,0 +1,49 @@
+body {
+    background: lightgrey;
+    color: cornflowerblue;
+    font-family: Serif;
+    font-size: larger;
+}
+
+#styling {
+    text-align: center;
+    width: auto;
+    margin-top: 50px;
+}
+
+
+h1 {
+    text-decoration: underline;
+    font-size: 32px;
+    animation: colorRotate 6s linear 0s infinite;
+}
+
+#questionList {
+    text-underline: black;
+    color: black;
+}
+
+
+#break {
+    border: 2px;
+    padding: 10px;
+    margin: 10px;
+}
+
+@keyframes colorRotate {
+    from {
+        color: #6666ff;
+    }
+    25% {
+        color: #0099ff;
+    }
+    50% {
+        color: #00ff00;
+    }
+    75% {
+        color: #ff3399;
+    }
+    100% {
+        color: #6666ff;
+    }
+}
