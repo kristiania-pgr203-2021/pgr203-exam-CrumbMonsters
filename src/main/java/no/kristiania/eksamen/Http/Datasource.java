@@ -16,7 +16,7 @@ public class Datasource {
         String[] propertyKeys = {"URL", "username", "password"};
         Properties properties = new Properties();
 
-        try (FileReader fileReader = new FileReader("config.properties")) {
+        try (FileReader fileReader = new FileReader("pgr203.properties")) {
             properties.load(fileReader);
 
             for (String key : propertyKeys) {
