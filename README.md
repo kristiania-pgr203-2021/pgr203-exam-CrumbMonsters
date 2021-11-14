@@ -19,7 +19,7 @@ Prosjektet kan startes på følgende måte.
      URL = url(Din url)
 5. Programmet kan nå startes og bør kunne lese verdiene fra config.properties av seg selv. 
 6. Skriv så 'java -jar Java-Eksamen-1.0-SNAPSHOT.jar' i terminalen. Dette skal eksekvere JAR filen og starte serveren. 
-
+7. For å avslutte programmet må man per nå gå i terminal og trykke control c. Kleint
 ## Funkjsoner som kan tests i programmet:
 Vi har en del funksjoner som kan testes i programemt vårt.
 Først har vi "crumbs" funksjonen vår som man kommer til direkte ved tilkobling av klient. Her skriver man inn navn som lagres i databasen. Vi forsøkte å bygge ut denne funksjonen til Cookies, men kom ikke fram til noe vi var fornøyde med. Derav har vi bare noen små crumbs.
