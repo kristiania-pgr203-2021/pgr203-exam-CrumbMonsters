@@ -8,4 +8,4 @@ insert into questions (question_title, question_name) values
 ('Food', 'What is your favorite kind of pizza?'),
 ('Food', 'What is your favorite kind of pasta?'),
 ('Electronics', 'What brand of phone do you have?'),
-('Electronics', 'What kind of PC do you have?') ON CONFLICT do nothing;
+('Electronics', 'What kind of PC do you have?');
